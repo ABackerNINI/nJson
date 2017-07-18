@@ -13,7 +13,7 @@ run ```make``` to compile and run the test.
 
 ## Examples
 ### Intrusive
-* implement member function ```bool serialize(JSON_Value *_doc_,const char *_key_ = NULL) const;``` and ```void deserialize(JSON_Value *_doc_)``` to support the serialization/deserialization of a structure or class.
+* implement member functions ```bool serialize(JSON_Value *_doc_,const char *_key_ = NULL) const;``` and ```void deserialize(JSON_Value *_doc_);``` to support the serialization/deserialization of a structure or class.
 * initial basic types to avoid a random value.
 ```c++
 struct Res{
@@ -108,33 +108,73 @@ public:
 
 private:
 	//basic types test
-	char 											c;
-	bool 											b;
-	short 											s;
-	int 											i;
-	float 											f;
-	long long 										ll;
-	double 											d;
+	char 						c;
+	bool 						b;
+	short 						s;
+	int 						i;
+	float 						f;
+	long long 					ll;
+	double 						d;
 
 	//const char * test
-	const char 										*pc;
+	const char 					*pc;
 
 	//map list test
-	std::map<std::string,std::string> 				m;
-	std::list<int>									l;
+	std::map<std::string,std::string> 		m;
+	std::list<int>					l;
 	std::list<std::map<std::string,std::string> >	lm;
 
 	//inner object test
-	InnerRes 										ir;
-	InnerRes 										*pir;
-	InnerRes 										**ppir;
-	std::map<std::string,InnerRes>					mir;
-	std::map<std::string,InnerRes*>					mpir;
+	InnerRes 					ir;
+	InnerRes 					*pir;
+	InnerRes 					**ppir;
+	std::map<std::string,InnerRes>			mir;
+	std::map<std::string,InnerRes*>			mpir;
 };
 ```
 ### Non-Intrusive
+* implement the following five functions to support the serialization/deserialization of a structure or class.
+```bool is_default_value(const T &val);```					//ignore when serializing if it is a default value.Intrusive method return false on default.
+```void set_key_value(JSON_Object *obj,const char *key,const T &val);```	//support the serialization of type ```T```.
+```void set_key_value(JSON_Array *arr,T &val);```				//support the serialization of type ```std::list<T>```.
+```void get_value(JSON_Object *obj,const char *key,T *val);```			//support the deserialization of type ```T```.
+```void get_value(JSON_Array *arr,const T &val);```				//support the deserialization of type ```std::list<T>```.
+The following code shows you how to support the serialization/deserialization of type std::list<>.See more at nJson/nJson/support.
 ```c++
+template<typename _T>
+inline bool is_default_value(const std::list<_T> &val){
+	return val.size()==0;
+}
 
+template<typename _T>
+	void set_key_value(JSON_Object *obj,const char *key,const std::list<_T> &val){
+		json_object_set_value(obj,key,json_value_init_array());
+		JSON_Array *arr = json_object_get_array(obj,key);
+		typename std::list<_T>::const_iterator it;
+		for(it = val.begin();it!=val.end();++it){
+			set_key_value(arr,*it);
+		}
+	}
+template<typename _T>
+	void set_key_value(JSON_Array *arr,const std::list<_T> &val){
+		typename std::list<_T>::const_iterator it;
+		for(it = val.begin();it!=val.end();++it){
+			set_key_value(arr,*it);
+		}
+	}
+
+template<typename _T>
+	void get_value(JSON_Object *obj,const char *key,std::list<_T> *val){
+		JSON_Array *arr = json_object_get_array(obj,key);
+		size_t n = json_array_get_count(arr);
+		_T lval;
+		for(int i=0;i<n;++i){
+			get_value(arr,i,&lval);
+			val->push_back(lval);
+		}
+	}
+template<typename _T>
+	void get_value(JSON_Array *arr,const std::list<_T> &val);//implements to support std::list<std::list<_T> >
 ```
 
 @ABacker:abacker.nini@foxmail.com
