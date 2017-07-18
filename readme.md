@@ -7,12 +7,12 @@ This is a C++0x serialize-to-json lib based on [parson](https://github.com/kgabi
 
 ## Installation
 * Run ```git clone https://github.com/ABackerNINI/nJson.git```.
-* Copy [nJson/nJson](https://github.com/ABackerNINI/nJson/blob/master/nJson) to your source code tree.
+* Copy folder "[nJson/nJson](https://github.com/ABackerNINI/nJson/blob/master/nJson)" to your source code tree.
 * Run ```make``` to compile and run the test.
 
 ## Examples
 ### Intrusive
-* Include header file [nJson/nJson/DEF.h](https://github.com/ABackerNINI/nJson/blob/master/nJson/DEF.h)
+* Include header file "[nJson/nJson/DEF.h](https://github.com/ABackerNINI/nJson/blob/master/nJson/DEF.h)".
 * Implement the following two member functions to support the serialization/deserialization of a structure or class.
 ```c++
 bool serialize(JSON_Value *_doc_,const char *_key_ = NULL) const;
@@ -187,4 +187,8 @@ template<typename _T>
 	void get_value(JSON_Array *arr,const std::list<_T> &val);//implements to support std::list<std::list<_T> >
 ```
 
+##Contributing
 @ABacker:abacker.nini@foxmail.com
+
+##Lisence
+[GNU GENERAL PUBLIC LICENSE](http://fsf.org/)
