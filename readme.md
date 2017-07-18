@@ -1,27 +1,26 @@
 ## About
-this is a C++0x serialize-to-json lib based on parson(https://github.com/kgabis/parson.git).
+This is a C++0x serialize-to-json lib based on [parson](https://github.com/kgabis/parson.git).
 
 ## Features
 * C++0x Compatible
 * intrusive or non-intrusive
 
 ## Installation
-run ```git clone https://github.com/ABackerNINI/nJson.git```.
-copy ```nJson/nJson``` to your source code tree.
-see ```nJson/resource``` to know how to use it.
-run ```make``` to compile and run the test.
+* Run ```git clone https://github.com/ABackerNINI/nJson.git```.
+* Copy [nJson/nJson](https://github.com/ABackerNINI/nJson/blob/master/nJson) to your source code tree.
+* Run ```make``` to compile and run the test.
 
 ## Examples
 ### Intrusive
-* include header file ```nJson/nJson/DEF.h```
-* implement the following two member functions to support the serialization/deserialization of a structure or class.
+* Include header file [nJson/nJson/DEF.h](https://github.com/ABackerNINI/nJson/blob/master/nJson/DEF.h)
+* Implement the following two member functions to support the serialization/deserialization of a structure or class.
 ```c++
 bool serialize(JSON_Value *_doc_,const char *_key_ = NULL) const;
-```
-```c++
 void deserialize(JSON_Value *_doc_);
 ```
-* initial basic types to avoid a random value.
+* Initial basic types to avoid a random value.
+The following code shows you how to support a self-define sturct.
+See more at [nJson/resource](https://github.com/ABackerNINI/nJson/blob/master/resource).
 ```c++
 struct Res{
 public:
@@ -140,23 +139,17 @@ private:
 };
 ```
 ### Non-Intrusive
-* implement the following five functions to support the serialization/deserialization of a structure or class.
+* Implement the following five functions to support the serialization/deserialization of a structure or class.
 ```c++
-bool is_default_value(const T &val);//ignore when serializing if it is a default value.Intrusive method return false on default.
-```
-```c++
+bool is_default_value(const T &val);//ignore when serializing if it is a default value.
+				    //Intrusive method return false on default.
 void set_key_value(JSON_Object *obj,const char *key,const T &val);//support the serialization of type "T".
-```
-```c++
 void set_key_value(JSON_Array *arr,T &val);//support the serialization of type "std::list<T>".
-```
-```c++
 void get_value(JSON_Object *obj,const char *key,T *val);//support the deserialization of type "T".
+value(JSON_Array *arr,const T &val);//support the deserialization of type "std::list<T>".
 ```
-```c++
-void get_value(JSON_Array *arr,const T &val);//support the deserialization of type "std::list<T>".
-```
-The following code shows you how to support the serialization/deserialization of type "std::list<T>".See more at nJson/nJson/support.
+The following code shows you how to support the serialization/deserialization of type "std::list<T>".
+See more examples at [nJson/nJson/support](https://github.com/ABackerNINI/nJson/blob/master/nJson/support).
 ```c++
 template<typename _T>
 inline bool is_default_value(const std::list<_T> &val){
