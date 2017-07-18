@@ -4,7 +4,6 @@
 #include <list>
 #include <string>
 #include <string.h>
-#include <conio.h>
 #include "resource/Res.h"
 
 int main(){
@@ -84,8 +83,6 @@ int main(){
 	free((void *)s2);
 
 	printf("debug end\n");
-
-	getch();
 
 	return 0;
 }
