@@ -138,7 +138,7 @@ private:
 	std::map<std::string,InnerRes*>			mpir;
 };
 ```
-Output:
+"[nJson/main.cpp](https://github.com/ABackerNINI/nJson/blob/master/main.cpp)" shows you how to serialize it.Output:
 ```json
 {
     "c": "c",
