@@ -13,7 +13,14 @@ run ```make``` to compile and run the test.
 
 ## Examples
 ### Intrusive
-* implement member functions ```bool serialize(JSON_Value *_doc_,const char *_key_ = NULL) const;``` and ```void deserialize(JSON_Value *_doc_);``` to support the serialization/deserialization of a structure or class.
+* include header file ```nJson/nJson/DEF.h```
+* implement the following two member functions to support the serialization/deserialization of a structure or class.
+```c++
+bool serialize(JSON_Value *_doc_,const char *_key_ = NULL) const;
+```
+```c++
+void deserialize(JSON_Value *_doc_);
+```
 * initial basic types to avoid a random value.
 ```c++
 struct Res{
@@ -134,12 +141,22 @@ private:
 ```
 ### Non-Intrusive
 * implement the following five functions to support the serialization/deserialization of a structure or class.
-```bool is_default_value(const T &val);```					//ignore when serializing if it is a default value.Intrusive method return false on default.
-```void set_key_value(JSON_Object *obj,const char *key,const T &val);```	//support the serialization of type ```T```.
-```void set_key_value(JSON_Array *arr,T &val);```				//support the serialization of type ```std::list<T>```.
-```void get_value(JSON_Object *obj,const char *key,T *val);```			//support the deserialization of type ```T```.
-```void get_value(JSON_Array *arr,const T &val);```				//support the deserialization of type ```std::list<T>```.
-The following code shows you how to support the serialization/deserialization of type std::list<>.See more at nJson/nJson/support.
+```c++
+bool is_default_value(const T &val);//ignore when serializing if it is a default value.Intrusive method return false on default.
+```
+```c++
+void set_key_value(JSON_Object *obj,const char *key,const T &val);//support the serialization of type "T".
+```
+```c++
+void set_key_value(JSON_Array *arr,T &val);//support the serialization of type "std::list<T>".
+```
+```c++
+void get_value(JSON_Object *obj,const char *key,T *val);//support the deserialization of type "T".
+```
+```c++
+void get_value(JSON_Array *arr,const T &val);//support the deserialization of type "std::list<T>".
+```
+The following code shows you how to support the serialization/deserialization of type "std::list<T>".See more at nJson/nJson/support.
 ```c++
 template<typename _T>
 inline bool is_default_value(const std::list<_T> &val){
