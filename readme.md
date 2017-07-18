@@ -11,31 +11,31 @@ This is a C++0x serialize-to-json lib based on [parson](https://github.com/kgabi
 * Run ```make``` to compile and run the test.
 
 ## Documents
-###file tree:
-nJson─┬─doc─┬─tree.md
-      │     └─foo.md
-      ├─nJson─┬─parson─┬─parson.c
-      │       │        └─parson.h
-      │       ├─support─┬─basic_type.h
-      │       │         ├─cstr_type.h
-      │       │         ├─list_type.h
-      │       │         ├─map_type.h
-      │       │         ├─pointer_type.h
-      │       │         ├─string_to.h
-      │       │         ├─string_type.h
-      │       │         ├─to_string.h
-      │       │         └─userdef_type.h
-      │       ├─DEF.h
-      │       ├─makefile
-      │       ├─nJson.h
-      │       └─parson.h
-      ├─resource─┬─InnerRes.h
-      │          └─Res.h
-      ├─.gitignore
-      ├─compile.bat
-      ├─LICENSE
-      ├─main.cpp
-      ├─makefile
+### files tree:
+nJson─┬─doc─┬─tree.md</br>
+      │     └─foo.md</br>
+      ├─nJson─┬─parson─┬─parson.c</br>
+      │       │        └─parson.h</br>
+      │       ├─support─┬─basic_type.h</br>
+      │       │         ├─cstr_type.h</br>
+      │       │         ├─list_type.h</br>
+      │       │         ├─map_type.h</br>
+      │       │         ├─pointer_type.h</br>
+      │       │         ├─string_to.h</br>
+      │       │         ├─string_type.h</br>
+      │       │         ├─to_string.h</br>
+      │       │         └─userdef_type.h</br>
+      │       ├─DEF.h</br>
+      │       ├─makefile</br>
+      │       ├─nJson.h</br>
+      │       └─parson.h</br>
+      ├─resource─┬─InnerRes.h</br>
+      │          └─Res.h</br>
+      ├─.gitignore</br>
+      ├─compile.bat</br>
+      ├─LICENSE</br>
+      ├─main.cpp</br>
+      ├─makefile</br>
       └─readme.md</br>
 See more at "[nJson/doc](https://github.com/ABackerNINI/nJson/blob/master/doc)".
 
@@ -169,75 +169,6 @@ private:
 ```
 "[nJson/main.cpp](https://github.com/ABackerNINI/nJson/blob/master/main.cpp)" shows you how to serialize it.Output:
 ```json
-{
-    "c": "c",
-    "b": false,
-    "s": 159,
-    "i": 10001,
-    "f": 1000000.187500,
-    "ll": 1234567890,
-    "d": 1234567890.123456,
-    "pc": "1234567890",
-    "m": {
-        "1": "2",
-        "2": "\\3",
-        "3": "4"
-    },
-    "l": [
-        1,
-        2,
-        3,
-        4
-    ],
-    "lm": [
-        {
-            "1": "2",
-            "2": "\\3",
-            "3": "4"
-        },
-        {
-            "1": "2",
-            "2": "\\3",
-            "3": "4"
-        },
-        {
-            "1": "2",
-            "2": "\\3",
-            "3": "4"
-        },
-        {
-            "1": "2",
-            "2": "\\3",
-            "3": "4"
-        }
-    ],
-    "ir": {
-        "id": 1,
-        "key": "k",
-        "val": "v"
-    },
-    "pir": {
-        "type": 1,
-        "key": "pir key"
-    },
-    "ppir": {
-        "type": 0,
-        "key": "ppir key",
-        "val": "ppir val"
-    },
-    "mir": {
-        "1": {
-            "type": 1,
-            "key": "k1",
-            "val": "v1"
-        },
-        "2": {
-            "type": 2,
-            "key": "k2",
-            "val": "v2"
-        }
-    }
-}
 {
     "c": "c",
     "b": false,
