@@ -137,6 +137,7 @@ private:
 	std::map<std::string,InnerRes>			mir;
 	std::map<std::string,InnerRes*>			mpir;
 };
+```
 Output:
 ```json
 {
@@ -277,7 +278,6 @@ Output:
         }
     }
 }
-```
 ```
 ### Non-Intrusive
 * Implement the following five functions to support a structure or a class with non-intrusive method.
