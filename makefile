@@ -1,11 +1,15 @@
 cc=g++
 cflags='-std=gnu++0x'
 root_dir=$(shell cd)
-obj_dir=debug/obj
 bin_dir=debug
+obj_dir=debug/obj
 
-all: parson.o main.o out.o
+all: pre.o parson.o main.o out.o
 	$(bin_dir)/out.exe
+
+pre.o:
+	test -d $(bin_dir) || mkdir -p $(bin_dir)
+	test -d $(obj_dir) || mkdir -p $(obj_dir)
 
 parson.o: nJson/parson/parson.h
 	$(cc) $(cflags) -c nJson/parson/parson.c -o $(obj_dir)/parson.o
