@@ -3,7 +3,7 @@ This is a C++0x serialize-to-json lib based on [parson](https://github.com/kgabi
 
 ## Features
 * C++0x Compatible
-* intrusive or non-intrusive
+* Intrusive or non-intrusive
 
 ## Installation
 * Run ```git clone https://github.com/ABackerNINI/nJson.git```.
