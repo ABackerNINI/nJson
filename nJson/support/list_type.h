@@ -37,7 +37,7 @@ template<typename _T>
 	   		JSON_Array *arr = json_object_get_array(obj,key);
 	   		size_t n = json_array_get_count(arr);
 	   		_T lval;
-	   		for(int i=0;i<n;++i){
+	   		for(size_t i=0;i<n;++i){
 	   			get_value(arr,i,&lval);
 	   			val->push_back(lval);
 	   		}

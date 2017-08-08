@@ -49,7 +49,7 @@ template<typename _T_KEY,typename _T_VAL>
 	   		const char *name;
 	   		_T_KEY mkey;
 	   		_T_VAL mval;
-	   		for(int i=0;i<n;++i){
+	   		for(size_t i=0;i<n;++i){
 	   			name = json_object_get_name(obj,i);
 	   			string_to(name,&mkey);
 	   			get_value(obj,name,&mval);
