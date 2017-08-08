@@ -134,7 +134,7 @@ inline void json_object_set(JSON_Object *obj,const char *key,const float &val){
 	json_object_set_number(obj,key,val);
 }
 inline void json_object_set(JSON_Object *obj,const char *key,const long long &val){
-	json_object_set_number(obj,key,val);
+	json_object_set_number(obj,key,(double)val);
 }
 inline void json_object_set(JSON_Object *obj,const char *key,const double &val){
 	json_object_set_number(obj,key,val);
@@ -163,7 +163,7 @@ inline void json_array_append(JSON_Array *arr,const float &val){
 	json_array_append_number(arr,val);
 }
 inline void json_array_append(JSON_Array *arr,const long long &val){
-	json_array_append_number(arr,val);
+	json_array_append_number(arr,(double)val);
 }
 inline void json_array_append(JSON_Array *arr,const double &val){
 	json_array_append_number(arr,val);
