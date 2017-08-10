@@ -25,25 +25,25 @@ inline bool is_default_value(const _T &res){
 }
 
 template<typename _T>
-inline void set_key_value(JSON_Object *obj,const char *key,const _T &res){
+inline void njson_set_value(JSON_Object *obj,const char *key,const _T &res){
 	JSON_Value *doc = json_value_init_object();
 	res.serialize(doc);
 	json_object_set_value(obj,key,doc);
 }
 template<typename _T>
-inline void set_key_value(JSON_Array *arr,const _T &res){
+inline void njson_set_value(JSON_Array *arr,const _T &res){
 	JSON_Value *doc = json_value_init_object();
 	res.serialize(doc);
 	json_array_append_value(arr,doc);
 }
 
 template<typename _T>
-inline void get_value(JSON_Object *obj,const char *key,_T *res){
+inline void njson_get_value(JSON_Object *obj,const char *key,_T *res){
 	if(json_object_has_value(obj,key))
 		res->deserialize(json_object_get_value(obj,key));
 }
 template<typename _T>
-inline void get_value(JSON_Array *arr,size_t index,_T *res){
+inline void njson_get_value(JSON_Array *arr,size_t index,_T *res){
 	res->deserialize(json_array_get_value(arr,index));
 }
 

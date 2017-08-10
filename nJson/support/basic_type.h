@@ -37,39 +37,39 @@ inline bool is_default_value(const float &val);
 inline bool is_default_value(const long long &val);
 inline bool is_default_value(const double &val);
 
-/*set_key_value*/
-inline void set_key_value(JSON_Object *obj,const char *key,char val);
-inline void set_key_value(JSON_Object *obj,const char *key,bool val);
-inline void set_key_value(JSON_Object *obj,const char *key,short val);
-inline void set_key_value(JSON_Object *obj,const char *key,int val);
-inline void set_key_value(JSON_Object *obj,const char *key,const float &val);
-inline void set_key_value(JSON_Object *obj,const char *key,const long long &val);
-inline void set_key_value(JSON_Object *obj,const char *key,const double &val);
+/*njson_set_value*/
+inline void njson_set_value(JSON_Object *obj,const char *key,char val);
+inline void njson_set_value(JSON_Object *obj,const char *key,bool val);
+inline void njson_set_value(JSON_Object *obj,const char *key,short val);
+inline void njson_set_value(JSON_Object *obj,const char *key,int val);
+inline void njson_set_value(JSON_Object *obj,const char *key,const float &val);
+inline void njson_set_value(JSON_Object *obj,const char *key,const long long &val);
+inline void njson_set_value(JSON_Object *obj,const char *key,const double &val);
 
-inline void set_key_value(JSON_Array *arr,char val);
-inline void set_key_value(JSON_Array *arr,bool val);
-inline void set_key_value(JSON_Array *arr,short val);
-inline void set_key_value(JSON_Array *arr,int val);
-inline void set_key_value(JSON_Array *arr,const float &val);
-inline void set_key_value(JSON_Array *arr,const long long &val);
-inline void set_key_value(JSON_Array *arr,const double &val);
+inline void njson_set_value(JSON_Array *arr,char val);
+inline void njson_set_value(JSON_Array *arr,bool val);
+inline void njson_set_value(JSON_Array *arr,short val);
+inline void njson_set_value(JSON_Array *arr,int val);
+inline void njson_set_value(JSON_Array *arr,const float &val);
+inline void njson_set_value(JSON_Array *arr,const long long &val);
+inline void njson_set_value(JSON_Array *arr,const double &val);
 
-/*get_value*/
-inline void get_value(JSON_Object *obj,const char *key,char *val);
-inline void get_value(JSON_Object *obj,const char *key,bool *val);
-inline void get_value(JSON_Object *obj,const char *key,short *val);
-inline void get_value(JSON_Object *obj,const char *key,int *val);
-inline void get_value(JSON_Object *obj,const char *key,float *val);
-inline void get_value(JSON_Object *obj,const char *key,long long *val);
-inline void get_value(JSON_Object *obj,const char *key,double *val);
+/*njson_get_value*/
+inline void njson_get_value(JSON_Object *obj,const char *key,char *val);
+inline void njson_get_value(JSON_Object *obj,const char *key,bool *val);
+inline void njson_get_value(JSON_Object *obj,const char *key,short *val);
+inline void njson_get_value(JSON_Object *obj,const char *key,int *val);
+inline void njson_get_value(JSON_Object *obj,const char *key,float *val);
+inline void njson_get_value(JSON_Object *obj,const char *key,long long *val);
+inline void njson_get_value(JSON_Object *obj,const char *key,double *val);
 
-inline void get_value(JSON_Array *arr,size_t index,char *val);
-inline void get_value(JSON_Array *arr,size_t index,bool *val);
-inline void get_value(JSON_Array *arr,size_t index,short *val);
-inline void get_value(JSON_Array *arr,size_t index,int *val);
-inline void get_value(JSON_Array *arr,size_t index,float *val);
-inline void get_value(JSON_Array *arr,size_t index,long long *val);
-inline void get_value(JSON_Array *arr,size_t index,double *val);
+inline void njson_get_value(JSON_Array *arr,size_t index,char *val);
+inline void njson_get_value(JSON_Array *arr,size_t index,bool *val);
+inline void njson_get_value(JSON_Array *arr,size_t index,short *val);
+inline void njson_get_value(JSON_Array *arr,size_t index,int *val);
+inline void njson_get_value(JSON_Array *arr,size_t index,float *val);
+inline void njson_get_value(JSON_Array *arr,size_t index,long long *val);
+inline void njson_get_value(JSON_Array *arr,size_t index,double *val);
 
 /*
  * Definitions:
@@ -99,100 +99,100 @@ inline bool is_default_value(const double &val){
 	return val==DEFAULT_VALUE_DOUBLE;
 }
 
-/*set_key_value*/
-inline void set_key_value(JSON_Object *obj,const char *key,char val){
+/*njson_set_value*/
+inline void njson_set_value(JSON_Object *obj,const char *key,char val){
 	json_object_set(obj,key,val);
 }
-inline void set_key_value(JSON_Object *obj,const char *key,bool val){
+inline void njson_set_value(JSON_Object *obj,const char *key,bool val){
 	json_object_set(obj,key,val);
 }
-inline void set_key_value(JSON_Object *obj,const char *key,short val){
+inline void njson_set_value(JSON_Object *obj,const char *key,short val){
 	json_object_set(obj,key,val);
 }
-inline void set_key_value(JSON_Object *obj,const char *key,int val){
+inline void njson_set_value(JSON_Object *obj,const char *key,int val){
 	json_object_set(obj,key,val);
 }
-inline void set_key_value(JSON_Object *obj,const char *key,const float &val){
+inline void njson_set_value(JSON_Object *obj,const char *key,const float &val){
 	json_object_set(obj,key,val);
 }
-inline void set_key_value(JSON_Object *obj,const char *key,const long long &val){
+inline void njson_set_value(JSON_Object *obj,const char *key,const long long &val){
 	json_object_set(obj,key,val);
 }
-inline void set_key_value(JSON_Object *obj,const char *key,const double &val){
+inline void njson_set_value(JSON_Object *obj,const char *key,const double &val){
 	json_object_set(obj,key,val);
 }
 
-inline void set_key_value(JSON_Array *arr,char val){
+inline void njson_set_value(JSON_Array *arr,char val){
 	json_array_append(arr,val);
 }
-inline void set_key_value(JSON_Array *arr,bool val){
+inline void njson_set_value(JSON_Array *arr,bool val){
 	json_array_append(arr,val);
 }
-inline void set_key_value(JSON_Array *arr,short val){
+inline void njson_set_value(JSON_Array *arr,short val){
 	json_array_append(arr,val);
 }
-inline void set_key_value(JSON_Array *arr,int val){
+inline void njson_set_value(JSON_Array *arr,int val){
 	json_array_append(arr,val);
 }
-inline void set_key_value(JSON_Array *arr,const float &val){
+inline void njson_set_value(JSON_Array *arr,const float &val){
 	json_array_append(arr,val);
 }
-inline void set_key_value(JSON_Array *arr,const long long &val){
+inline void njson_set_value(JSON_Array *arr,const long long &val){
 	json_array_append(arr,val);
 }
-inline void set_key_value(JSON_Array *arr,const double &val){
+inline void njson_set_value(JSON_Array *arr,const double &val){
 	json_array_append(arr,val);
 }
 
-/*get_value*/
-inline void get_value(JSON_Object *obj,const char *key,char *val){
+/*njson_get_value*/
+inline void njson_get_value(JSON_Object *obj,const char *key,char *val){
 	if(json_object_has_value(obj,key))
 		*val = json_object_get<char>(obj,key);
 }
-inline void get_value(JSON_Object *obj,const char *key,bool *val){
+inline void njson_get_value(JSON_Object *obj,const char *key,bool *val){
 	if(json_object_has_value(obj,key))
 		*val = json_object_get<bool>(obj,key);
 }
-inline void get_value(JSON_Object *obj,const char *key,short *val){
+inline void njson_get_value(JSON_Object *obj,const char *key,short *val){
 	if(json_object_has_value(obj,key))
 		*val = json_object_get<short>(obj,key);
 }
-inline void get_value(JSON_Object *obj,const char *key,int *val){
+inline void njson_get_value(JSON_Object *obj,const char *key,int *val){
 	if(json_object_has_value(obj,key))
 		*val = json_object_get<int>(obj,key);
 }
-inline void get_value(JSON_Object *obj,const char *key,float *val){
+inline void njson_get_value(JSON_Object *obj,const char *key,float *val){
 	if(json_object_has_value(obj,key))
 		*val = json_object_get<float>(obj,key);
 }
-inline void get_value(JSON_Object *obj,const char *key,long long *val){
+inline void njson_get_value(JSON_Object *obj,const char *key,long long *val){
 	if(json_object_has_value(obj,key))
 		*val = json_object_get<long long>(obj,key);
 }
-inline void get_value(JSON_Object *obj,const char *key,double *val){
+inline void njson_get_value(JSON_Object *obj,const char *key,double *val){
 	if(json_object_has_value(obj,key))
 		*val = json_object_get<double>(obj,key);
 }
 
-inline void get_value(JSON_Array *arr,size_t index,char *val){
+inline void njson_get_value(JSON_Array *arr,size_t index,char *val){
 	*val = json_array_get<char>(arr,index);
 }
-inline void get_value(JSON_Array *arr,size_t index,bool *val){
+inline void njson_get_value(JSON_Array *arr,size_t index,bool *val){
 	*val = json_array_get<bool>(arr,index);
 }
-inline void get_value(JSON_Array *arr,size_t index,short *val){
+inline void njson_get_value(JSON_Array *arr,size_t index,short *val){
 	*val = json_array_get<short>(arr,index);
 }
-inline void get_value(JSON_Array *arr,size_t index,int *val){
+inline void njson_get_value(JSON_Array *arr,size_t index,int *val){
 	*val = json_array_get<int>(arr,index);
 }
-inline void get_value(JSON_Array *arr,size_t index,float *val){
+inline void njson_get_value(JSON_Array *arr,size_t index,float *val){
 	*val = json_array_get<float>(arr,index);
 }
-inline void get_value(JSON_Array *arr,size_t index,long long *val){
+inline void njson_get_value(JSON_Array *arr,size_t index,long long *val){
 	*val = json_array_get<long long>(arr,index);
 }
-inline void get_value(JSON_Array *arr,size_t index,double *val){
+inline void njson_get_value(JSON_Array *arr,size_t index,double *val){
 	*val = json_array_get<double>(arr,index);
 }
 

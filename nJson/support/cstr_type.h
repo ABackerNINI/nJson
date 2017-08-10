@@ -21,11 +21,11 @@
 
 inline bool is_default_value(const char *val);
 
-inline void set_key_value(JSON_Object *obj,const char *key,const char *val);
-inline void set_key_value(JSON_Array *arr,const char *val);
+inline void njson_set_value(JSON_Object *obj,const char *key,const char *val);
+inline void njson_set_value(JSON_Array *arr,const char *val);
 
-inline void get_value(JSON_Object *obj,const char *key,const char **val);
-inline void get_value(JSON_Array *arr,size_t index,const char **val);
+inline void njson_get_value(JSON_Object *obj,const char *key,const char **val);
+inline void njson_get_value(JSON_Array *arr,size_t index,const char **val);
 
 /*
  * Definitions:
@@ -36,16 +36,16 @@ inline bool is_default_value(const char *val){
 	return val==DEFAULT_VALUE_CSTR;
 }
 
-/*set_key_value*/
-inline void set_key_value(JSON_Object *obj,const char *key,const char *val){
+/*njson_set_value*/
+inline void njson_set_value(JSON_Object *obj,const char *key,const char *val){
 	json_object_set(obj,key,val);
 }
-inline void set_key_value(JSON_Array *arr,const char *val){
+inline void njson_set_value(JSON_Array *arr,const char *val){
 	json_array_append(arr,val);
 }
 
-/*get_value*/
-inline void get_value(JSON_Object *obj,const char *key,const char **val){
+/*njson_get_value*/
+inline void njson_get_value(JSON_Object *obj,const char *key,const char **val){
 	if(json_object_has_value(obj,key)){
 		*val = json_object_get<const char *>(obj,key);
 
@@ -54,7 +54,7 @@ inline void get_value(JSON_Object *obj,const char *key,const char **val){
 #endif
 	}
 }
-inline void get_value(JSON_Array *arr,size_t index,const char **val){
+inline void njson_get_value(JSON_Array *arr,size_t index,const char **val){
 	*val = json_array_get<const char *>(arr,index);
 
 #if(FEATURE_STRDUP)

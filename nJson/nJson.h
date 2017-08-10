@@ -3,12 +3,12 @@
 #ifndef _UTILITIES_JSON_JSON_H_
 #define _UTILITIES_JSON_JSON_H_
 
-#define _SET_KEY_VALUE set_key_value
+#define _SET_VALUE njson_set_value
 #define _IS_DEFAULT_VALUE is_default_value
-#define _SET_IF_NOT_DEFAULT(ROOT,K,M) if(!_IS_DEFAULT_VALUE(M))_SET_KEY_VALUE(ROOT,K,M)
+#define _SET_IF_NOT_DEFAULT(ROOT,K,M) if(!_IS_DEFAULT_VALUE(M))_SET_VALUE(ROOT,K,M)
 #define _SET(ROOT,M) _SET_IF_NOT_DEFAULT(ROOT,#M,M)
 
-#define _GET_VALUE get_value
+#define _GET_VALUE njson_get_value
 #define _GET(ROOT,M) _GET_VALUE(ROOT,#M,&M)
 
 #define _SERIALIZE_SUPER_CLASS(S) S::serialize
