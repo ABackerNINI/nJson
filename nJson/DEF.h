@@ -17,7 +17,7 @@ inline int cut_string(char *cstr);
 
 /*Return c-style string,free it afterwards*/
 template<typename _T>
-inline const char *serialize(const _T &res,char *keys = NULL){
+inline char *serialize(const _T &res,char *keys = NULL){
 	JSON_Value *doc = json_value_init_object();
 
 	if(keys){
@@ -36,7 +36,7 @@ inline const char *serialize(const _T &res,char *keys = NULL){
 		} else res.serialize(doc);
 	} else res.serialize(doc);
 
-	const char *s = json_serialize_to_string_pretty(doc);
+	char *s = json_serialize_to_string_pretty(doc);
 
 	json_value_free(doc);
 
