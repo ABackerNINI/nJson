@@ -218,10 +218,10 @@ private:
 ```c++
 bool is_default_value(const T &val);//ignore when serializing if it is a default value.
 				    //Intrusive method return false on default.
-void set_key_value(JSON_Object *obj,const char *key,const T &val);//support the serialization of type "T".
-void set_key_value(JSON_Array *arr,T &val);//support the serialization of type "std::list<T>".
-void get_value(JSON_Object *obj,const char *key,T *val);//support the deserialization of type "T".
-void get_value(JSON_Array *arr,const T &val);//support the deserialization of type "std::list<T>".
+void njson_set_value(JSON_Object *obj,const char *key,const T &val);//support the serialization of type "T".
+void njson_set_value(JSON_Array *arr,T &val);//support the serialization of type "std::list<T>".
+void njson_get_value(JSON_Object *obj,const char *key,T *val);//support the deserialization of type "T".
+void njson_get_value(JSON_Array *arr,const T &val);//support the deserialization of type "std::list<T>".
 ```
 The following code shows you how to support the type "std::list<T>".</br>
 See more examples at "[nJson/nJson/support](https://github.com/ABackerNINI/nJson/tree/master/nJson/support)".
@@ -232,34 +232,34 @@ inline bool is_default_value(const std::list<_T> &val){
 }
 
 template<typename _T>
-	void set_key_value(JSON_Object *obj,const char *key,const std::list<_T> &val){
+	void njson_set_value(JSON_Object *obj,const char *key,const std::list<_T> &val){
 		json_object_set_value(obj,key,json_value_init_array());
 		JSON_Array *arr = json_object_get_array(obj,key);
 		typename std::list<_T>::const_iterator it;
 		for(it = val.begin();it!=val.end();++it){
-			set_key_value(arr,*it);
+			njson_set_value(arr,*it);
 		}
 	}
 template<typename _T>
-	void set_key_value(JSON_Array *arr,const std::list<_T> &val){
+	void njson_set_value(JSON_Array *arr,const std::list<_T> &val){
 		typename std::list<_T>::const_iterator it;
 		for(it = val.begin();it!=val.end();++it){
-			set_key_value(arr,*it);
+			njson_set_value(arr,*it);
 		}
 	}
 
 template<typename _T>
-	void get_value(JSON_Object *obj,const char *key,std::list<_T> *val){
+	void njson_get_value(JSON_Object *obj,const char *key,std::list<_T> *val){
 		JSON_Array *arr = json_object_get_array(obj,key);
 		size_t n = json_array_get_count(arr);
 		_T lval;
 		for(int i=0;i<n;++i){
-			get_value(arr,i,&lval);
+			njson_get_value(arr,i,&lval);
 			val->push_back(lval);
 		}
 	}
 template<typename _T>
-	void get_value(JSON_Array *arr,const std::list<_T> &val);//implements to support std::list<std::list<_T> >
+	void njson_get_value(JSON_Array *arr,const std::list<_T> &val);//implements to support std::list<std::list<_T> >
 ```
 
 ## Contributing
