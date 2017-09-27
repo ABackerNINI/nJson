@@ -38,13 +38,13 @@ inline void njson_set_value(JSON_Array *arr, _T * const res){
 template<typename _T>
 inline void njson_get_value(JSON_Object *obj,const char *key,_T **res){
 	if(json_object_has_value(obj,key)){
-		*res = new _T();
+		if(*res==NULL)*res = new _T();
 		njson_get_value(obj,key,*res);
 	}
 }
 template<typename _T>
 inline void njson_get_value(JSON_Array *arr,size_t index,_T **res){
-	*res = new _T();
+	if(*res==NULL)*res = new _T();
 	njson_get_value(arr,index,*res);
 }
 
