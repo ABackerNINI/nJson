@@ -956,7 +956,8 @@ static int json_serialize_string(const char *string, char *buf) {
         switch (c) {
             case '\"': APPEND_STRING("\\\""); break;
             case '\\': APPEND_STRING("\\\\"); break;
-            case '/':  APPEND_STRING("\\/"); break; /* to make json embeddable in xml\/html */
+////mark:'/'is not a special character,comment it for now -ABacker
+//            case '/':  APPEND_STRING("\\/"); break; /* to make json embeddable in xml\/html */
             case '\b': APPEND_STRING("\\b"); break;
             case '\f': APPEND_STRING("\\f"); break;
             case '\n': APPEND_STRING("\\n"); break;
