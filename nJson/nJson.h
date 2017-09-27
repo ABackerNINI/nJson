@@ -22,7 +22,7 @@
 #include "support/userdef_type.h"
 
 /*
-	Includes "support/pointer_type.h" after other type-support files to support thire corresponding pointer types.
+	Includes "support/pointer_type.h" after other type-support files to support their corresponding pointer types.
 	So how to support the pointer types of other types? I haven't figured out.
 */
 #include "support/pointer_type.h"
