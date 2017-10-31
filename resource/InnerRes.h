@@ -5,7 +5,7 @@
 
 #include <string.h>
 
-#include "../nJson/def.h"
+#include "../nJson/DEF.h"
 
 struct Super{
 public:

@@ -6,7 +6,7 @@
 #include <string.h>
 
 #include "InnerRes.h"
-#include "../nJson/def.h"
+#include "../nJson/DEF.h"
 
 struct Res{
 public:
