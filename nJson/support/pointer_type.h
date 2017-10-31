@@ -22,10 +22,10 @@
 */
 
 template<typename T>
-inline bool njson_is_default_value(T *njson_var);
+inline bool njson_is_default_value(const T *njson_var);
 
 template<typename T>
-inline JSON_Value *njson_serialize(const T *&njson_var);
+inline JSON_Value *njson_serialize(const T *njson_var);
 
 template<typename T>
 inline void njson_deserialize(JSON_Value *njson_val, T **njson_var);
@@ -33,12 +33,12 @@ inline void njson_deserialize(JSON_Value *njson_val, T **njson_var);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 template<typename T>
-inline bool njson_is_default_value(T *njson_var) {
+inline bool njson_is_default_value(const T *njson_var) {
     return njson_var == NJSON_DEFAULT_VALUE_POINTER || njson_is_default_value(*njson_var);
 }
 
 template<typename T>
-inline JSON_Value *njson_serialize(const T *&njson_var) {
+inline JSON_Value *njson_serialize(T *const njson_var) {
     return njson_serialize(*njson_var);
 }
 

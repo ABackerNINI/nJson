@@ -13,15 +13,15 @@
 
 /*! basic types should always be initialized to avoid a random value*/
 /*! type 'bool' should be initialized by memset(&bool_val,-1,sizeof(bool))*/
-/*! DO NOT USE TEMPLATE HEARE to make sure basic types match first*/
+/*! DO NOT USE TEMPLATE HERE to make sure basic types match first*/
 
-#define DEFAULT_VALUE_CHAR      ((char)-1)
-#define DEFAULT_VALUE_BOOL      ((short)255)
-#define DEFAULT_VALUE_SHORT     (0x6fff)
-#define DEFAULT_VALUE_INT       (0x6fffffff)
-#define DEFAULT_VALUE_FLOAT     (-1000000.125)//choose a value that float type can exactly represent
-#define DEFAULT_VALUE_LONG_LONG (0x6fffffffffffffff)
-#define DEFAULT_VALUE_DOUBLE    (-100000000000000.11)//choose a value that double type can exactly represent
+#define NJSON_DEFAULT_VALUE_CHAR      ((char)-1)
+#define NJSON_DEFAULT_VALUE_BOOL      ((short)255)
+#define NJSON_DEFAULT_VALUE_SHORT     (0x6fff)
+#define NJSON_DEFAULT_VALUE_INT       (0x6fffffff)
+#define NJSON_DEFAULT_VALUE_FLOAT     (-1000000.125)//choose a value that float type can exactly represent
+#define NJSON_DEFAULT_VALUE_LONG_LONG (0x6fffffffffffffff)
+#define NJSON_DEFAULT_VALUE_DOUBLE    (-100000000000000.11)//choose a value that double type can exactly represent
 
 /*is_default_value*/
 inline bool njson_is_default_value(const char &njson_var);
@@ -72,32 +72,32 @@ inline void njson_deserialize(JSON_Value *njson_val, double *njson_var);
 
 /*is_default_value*/
 inline bool njson_is_default_value(const char &njson_var) {
-    return njson_var == DEFAULT_VALUE_CHAR;
+    return njson_var == NJSON_DEFAULT_VALUE_CHAR;
 }
 
 inline bool njson_is_default_value(const bool &njson_var) {
-    const static short i = 255;
+    const static short i = NJSON_DEFAULT_VALUE_BOOL;
     return memcmp(&njson_var, &i, sizeof(bool)) == 0;
 }
 
 inline bool njson_is_default_value(const short &njson_var) {
-    return njson_var == DEFAULT_VALUE_SHORT;
+    return njson_var == NJSON_DEFAULT_VALUE_SHORT;
 }
 
 inline bool njson_is_default_value(const int &njson_var) {
-    return njson_var == DEFAULT_VALUE_INT;
+    return njson_var == NJSON_DEFAULT_VALUE_INT;
 }
 
 inline bool njson_is_default_value(const float &njson_var) {
-    return njson_var == DEFAULT_VALUE_FLOAT;
+    return njson_var == NJSON_DEFAULT_VALUE_FLOAT;
 }
 
 inline bool njson_is_default_value(const long long &njson_var) {
-    return njson_var == DEFAULT_VALUE_LONG_LONG;
+    return njson_var == NJSON_DEFAULT_VALUE_LONG_LONG;
 }
 
 inline bool njson_is_default_value(const double &njson_var) {
-    return njson_var == DEFAULT_VALUE_DOUBLE;
+    return njson_var == NJSON_DEFAULT_VALUE_DOUBLE;
 }
 
 /*njson_serialize*/

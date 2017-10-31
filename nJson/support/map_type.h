@@ -20,7 +20,7 @@ inline std::string njson_to_string(const char &val);
 
 inline std::string njson_to_string(const bool &val);
 
-inline std::string njson_to_string(const char *&val);
+inline std::string njson_to_string(const char *val);
 
 inline std::string njson_to_string(const double &val);
 
@@ -61,7 +61,7 @@ inline std::string njson_to_string(const bool &val) {
     return val ? std::string("true") : std::string("false");
 }
 
-inline std::string njson_to_string(const char *&val) {
+inline std::string njson_to_string(const char *val) {
     return std::string(val);
 }
 
@@ -112,7 +112,7 @@ inline JSON_Value *njson_serialize(const std::map<T1, T2> &njson_var) {
     }
 
     return doc;
-};
+}
 
 template<typename T1, typename T2>
 inline void njson_deserialize(JSON_Value *njson_val, std::map<T1, T2> *njson_var) {
@@ -127,6 +127,6 @@ inline void njson_deserialize(JSON_Value *njson_val, std::map<T1, T2> *njson_var
         njson_deserialize(json_object_get_value_at(obj, i), &val);
         (*njson_var)[key] = val;
     }
-};
+}
 
 #endif//_NJSON_SUPPORT_MAP_TYPE_H_

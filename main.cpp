@@ -4,24 +4,26 @@
 #include <list>
 #include <string>
 //#include "resource/Res.h"
-#include "nJson/support/basic_type.h"
-#include "nJson/support/list_type.h"
 #include "nJson/DEF.h"
 
 class foo {
 public:
     JSON_Value *njson_serialize() {
         JSON_Value *njson_val = json_value_init_object();
-//        JSON_Object *njson_obj = json_value_get_object(njson_val);
 
         SET(a);
-//        json_object_set_value(json_value_get_object(njson_val), "a", ::njson_serialize(a));
+//        SET(s);
+        SET(m);
+        SET(m2);
 
         return njson_val;
     }
 
 public:
     int a;
+    std::string *s;
+    std::map<std::string, std::string> m;
+    std::map<int,int *>m2;
 };
 
 int main() {
@@ -29,6 +31,12 @@ int main() {
 
     foo f;
     f.a = 1003;
+    f.s = new std::string();
+//    *f.s = "1234";
+    f.m["1"] = "2";
+    f.m["2"] = "3";
+    f.m2[1] = new int(1);
+    f.m2[2] = new int(2);
 
     const char *s = json_serialize_to_string_pretty(f.njson_serialize());
 

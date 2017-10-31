@@ -19,7 +19,9 @@
 #include "support/basic_type.h"
 #include "support/cstr_type.h"
 #include "support/string_type.h"
+
 #include "support/list_type.h"
+#include "support/pointer_type.h"
 #include "support/map_type.h"
 #include "support/userdef_type.h"
 
@@ -27,6 +29,5 @@
 	Includes "support/pointer_type.h" after other type-support files to support their corresponding pointer types.
 	So how to support the pointer types of other types? I haven't figured out.
 */
-#include "support/pointer_type.h"
 
 #endif//_NJSON_NJSON_H_

@@ -15,48 +15,48 @@
 
 inline int cut_string(char *cstr, char c);
 
-template<typename _T>
-inline JSON_Value *serialize_to_doc(const _T &res, char *keys = NULL) {
-    JSON_Value *doc = json_value_init_object();
-
-    if (keys) {
-        bool cut = true;
-        int n = cut_string(keys, ',');
-        if (n > 0) {
-            for (char *key = keys; n > 0; ++key) {
-                if (*key == '\0') {
-                    cut = true;
-                } else if (cut) {
-                    res.njson_serialize(doc, key);
-                    --n;
-                    cut = false;
-                }
-            }
-        } else res.njson_serialize();
-    } else res.njson_serialize();
-
-    return doc;
-}
-
-/*Return c-style string,free it afterwards*/
-template<typename _T>
-inline char *serialize(const _T &res, char *keys = NULL) {
-    JSON_Value *doc = serialize_to_doc(res, keys);
-
-    char *s = json_serialize_to_string_pretty(doc);
-
-    json_value_free(doc);
-
-    return s;
-}
-
-template<typename _T>
-inline void deserialize(_T *res, const char *s) {
-    JSON_Value *doc = json_parse_string(s);
-    res->njson_deserialize(doc);
-
-    json_value_free(doc);
-}
+//template<typename _T>
+//inline JSON_Value *serialize_to_doc(const _T &res, char *keys = NULL) {
+//    JSON_Value *doc = json_value_init_object();
+//
+//    if (keys) {
+//        bool cut = true;
+//        int n = cut_string(keys, ',');
+//        if (n > 0) {
+//            for (char *key = keys; n > 0; ++key) {
+//                if (*key == '\0') {
+//                    cut = true;
+//                } else if (cut) {
+//                    res.njson_serialize(doc, key);
+//                    --n;
+//                    cut = false;
+//                }
+//            }
+//        } else res.njson_serialize();
+//    } else res.njson_serialize();
+//
+//    return doc;
+//}
+//
+///*Return c-style string,free it afterwards*/
+//template<typename _T>
+//inline char *serialize(const _T &res, char *keys = NULL) {
+//    JSON_Value *doc = serialize_to_doc(res, keys);
+//
+//    char *s = json_serialize_to_string_pretty(doc);
+//
+//    json_value_free(doc);
+//
+//    return s;
+//}
+//
+//template<typename _T>
+//inline void deserialize(_T *res, const char *s) {
+//    JSON_Value *doc = json_parse_string(s);
+//    res->njson_deserialize(doc);
+//
+//    json_value_free(doc);
+//}
 
 inline int cut_string(char *cstr, char c) {
     int n = 0;

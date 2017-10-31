@@ -5,6 +5,7 @@
 
 #include <string>
 #include <stdlib.h>
+#include <cstring>
 #include "../parson.h"
 
 /*
