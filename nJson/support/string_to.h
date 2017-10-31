@@ -20,43 +20,57 @@
  * */
 
 /*string_to*/
-inline void string_to(const char *s,char *val);
-inline void string_to(const char *s,bool *val);
-inline void string_to(const char *s,short *val);
-inline void string_to(const char *s,int *val);
-inline void string_to(const char *s,float *val);
-inline void string_to(const char *s,long long *val);
-inline void string_to(const char *s,double *val);
-inline void string_to(const char *s,std::string *val);
+inline void string_to(const char *s, char *val);
+
+inline void string_to(const char *s, bool *val);
+
+inline void string_to(const char *s, short *val);
+
+inline void string_to(const char *s, int *val);
+
+inline void string_to(const char *s, float *val);
+
+inline void string_to(const char *s, long long *val);
+
+inline void string_to(const char *s, double *val);
+
+inline void string_to(const char *s, std::string *val);
 
 /*
  * Definitions:
  * */
 
 /*string_to*/
-inline void string_to(const char *s,char *val){
-	*val = s[0];
+inline void string_to(const char *s, char *val) {
+    *val = s[0];
 }
-inline void string_to(const char *s,bool *val){
-	*val = (strcmp(s,"true") == 0);
+
+inline void string_to(const char *s, bool *val) {
+    *val = (strcmp(s, "true") == 0);
 }
-inline void string_to(const char *s,short *val){
-	*val = (short)atoi(s);
+
+inline void string_to(const char *s, short *val) {
+    *val = (short) atoi(s);
 }
-inline void string_to(const char *s,int *val){
-	*val = atoi(s);
+
+inline void string_to(const char *s, int *val) {
+    *val = atoi(s);
 }
-inline void string_to(const char *s,float *val){
-	*val = (float)atof(s);
+
+inline void string_to(const char *s, float *val) {
+    *val = (float) atof(s);
 }
-inline void string_to(const char *s,long long *val){
-	*val = atoll(s);
+
+inline void string_to(const char *s, long long *val) {
+    *val = atoll(s);
 }
-inline void string_to(const char *s,double *val){
-	*val = atof(s);
+
+inline void string_to(const char *s, double *val) {
+    *val = atof(s);
 }
-inline void string_to(const char *s,std::string *val){
-	*val = std::string(s);
+
+inline void string_to(const char *s, std::string *val) {
+    *val = std::string(s);
 }
 
 #endif//_UTILITIES_JSON_SUPPORT_STRING_TO_H_

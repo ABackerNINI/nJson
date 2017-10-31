@@ -11,66 +11,73 @@
 #define SERIALIZE_SUPER_CLASS(S) _SERIALIZE_SUPER_CLASS(S)(_doc_,_key_)
 #define DESERIALIZE_SUPER_CLASS(S) _DESERIALIZE_SUPER_CLASS(S)(_doc_)
 
-#define SET_IF(K,M) _SET_IF_NOT_DEFAULT(_root_obj_,K,M)
+#define SET_IF(K, M) _SET_IF_NOT_DEFAULT(_root_obj_,K,M)
 
-inline int cut_string(char *cstr);
+inline int cut_string(char *cstr, char c);
+
+template<typename _T>
+inline JSON_Value *serialize_to_doc(const _T &res, char *keys = NULL) {
+    JSON_Value *doc = json_value_init_object();
+
+    if (keys) {
+        bool cut = true;
+        int n = cut_string(keys, ',');
+        if (n > 0) {
+            for (char *key = keys; n > 0; ++key) {
+                if (*key == '\0') {
+                    cut = true;
+                } else if (cut) {
+                    res.serialize(doc, key);
+                    --n;
+                    cut = false;
+                }
+            }
+        } else res.serialize(doc);
+    } else res.serialize(doc);
+
+    return doc;
+}
 
 /*Return c-style string,free it afterwards*/
 template<typename _T>
-inline char *serialize(const _T &res,char *keys = NULL){
-	JSON_Value *doc = json_value_init_object();
+inline char *serialize(const _T &res, char *keys = NULL) {
+    JSON_Value *doc = serialize_to_doc(res, keys);
 
-	if(keys){
-		bool cut = true;
-		int n = cut_string(keys);
-		if(n>0){
-			for(char *key = keys;n>0;++key){
-				if(*key=='\0'){
-					cut=true;
-				} else if(cut) {
-					res.serialize(doc,key);
-					--n;
-					cut = false;
-				}
-			}
-		} else res.serialize(doc);
-	} else res.serialize(doc);
+    char *s = json_serialize_to_string_pretty(doc);
 
-	char *s = json_serialize_to_string_pretty(doc);
+    json_value_free(doc);
 
-	json_value_free(doc);
-
-	return s;
+    return s;
 }
 
 template<typename _T>
-inline void deserialize(_T *res, const char *s){
-	JSON_Value *doc =json_parse_string(s);
-	res->deserialize(doc);
+inline void deserialize(_T *res, const char *s) {
+    JSON_Value *doc = json_parse_string(s);
+    res->deserialize(doc);
 
-	json_value_free(doc);
+    json_value_free(doc);
 }
 
-inline int cut_string(char *cstr){
-	int n = 0;
-	bool cut = true;
-	while(*cstr){
-		if(*cstr==' '){
-			*cstr = '\0';
-			if(!cut){
-				++n;
-				cut = true;
-			}
-		} else {
-			cut = false;
-		}
+inline int cut_string(char *cstr, char c) {
+    int n = 0;
+    bool cut = true;
+    while (*cstr) {
+        if (*cstr == c) {
+            *cstr = '\0';
+            if (!cut) {
+                ++n;
+                cut = true;
+            }
+        } else {
+            cut = false;
+        }
 
-		++cstr;
-	}
+        ++cstr;
+    }
 
-	if(!cut)++n;
+    if (!cut)++n;
 
-	return n;
+    return n;
 }
 
 #endif//_NJSON_DEF_H_

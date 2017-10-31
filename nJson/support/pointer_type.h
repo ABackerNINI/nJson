@@ -22,30 +22,32 @@
 */
 
 template<typename _T>
-inline bool is_default_value(_T *val){
-	return val == DEFAULT_VALUE_POINTER || is_default_value(*val);
+inline bool is_default_value(_T *val) {
+    return val == DEFAULT_VALUE_POINTER || is_default_value(*val);
 }
 
 template<typename _T>
-inline void njson_set_value(JSON_Object *obj,const char *key, _T * const res){
-	njson_set_value(obj,key,*res);
-}
-template<typename _T>
-inline void njson_set_value(JSON_Array *arr, _T * const res){
-	njson_set_value(arr,*res);
+inline void njson_set_value(JSON_Object *obj, const char *key, _T *const res) {
+    njson_set_value(obj, key, *res);
 }
 
 template<typename _T>
-inline void njson_get_value(JSON_Object *obj,const char *key,_T **res){
-	if(json_object_has_value(obj,key)){
-		if(*res==NULL)*res = new _T();
-		njson_get_value(obj,key,*res);
-	}
+inline void njson_set_value(JSON_Array *arr, _T *const res) {
+    njson_set_value(arr, *res);
 }
+
 template<typename _T>
-inline void njson_get_value(JSON_Array *arr,size_t index,_T **res){
-	if(*res==NULL)*res = new _T();
-	njson_get_value(arr,index,*res);
+inline void njson_get_value(JSON_Object *obj, const char *key, _T **res) {
+    if (json_object_has_value(obj, key)) {
+        if (*res == NULL)*res = new _T();
+        njson_get_value(obj, key, *res);
+    }
+}
+
+template<typename _T>
+inline void njson_get_value(JSON_Array *arr, size_t index, _T **res) {
+    if (*res == NULL)*res = new _T();
+    njson_get_value(arr, index, *res);
 }
 
 #endif//_UTILITIES_JSON_SUPPORT_POINTER_TYPE_H_

@@ -38,10 +38,10 @@ inline bool is_default_value(const long long &val);
 inline bool is_default_value(const double &val);
 
 /*njson_set_value*/
-inline void njson_set_value(JSON_Object *obj,const char *key,char val);
-inline void njson_set_value(JSON_Object *obj,const char *key,bool val);
-inline void njson_set_value(JSON_Object *obj,const char *key,short val);
-inline void njson_set_value(JSON_Object *obj,const char *key,int val);
+inline void njson_set_value(JSON_Object *obj,const char *key,const char &val);
+inline void njson_set_value(JSON_Object *obj,const char *key,const bool &val);
+inline void njson_set_value(JSON_Object *obj,const char *key,const short &val);
+inline void njson_set_value(JSON_Object *obj,const char *key,const int &val);
 inline void njson_set_value(JSON_Object *obj,const char *key,const float &val);
 inline void njson_set_value(JSON_Object *obj,const char *key,const long long &val);
 inline void njson_set_value(JSON_Object *obj,const char *key,const double &val);
