@@ -29,10 +29,10 @@
  * */
 
 /*is_default_value*/
-inline bool is_default_value(char val);
-inline bool is_default_value(bool val);
-inline bool is_default_value(short val);
-inline bool is_default_value(int val);
+inline bool is_default_value(const char &val);
+inline bool is_default_value(const bool &val);
+inline bool is_default_value(const short &val);
+inline bool is_default_value(const int &val);
 inline bool is_default_value(const float &val);
 inline bool is_default_value(const long long &val);
 inline bool is_default_value(const double &val);
@@ -46,10 +46,10 @@ inline void njson_set_value(JSON_Object *obj,const char *key,const float &val);
 inline void njson_set_value(JSON_Object *obj,const char *key,const long long &val);
 inline void njson_set_value(JSON_Object *obj,const char *key,const double &val);
 
-inline void njson_set_value(JSON_Array *arr,char val);
-inline void njson_set_value(JSON_Array *arr,bool val);
-inline void njson_set_value(JSON_Array *arr,short val);
-inline void njson_set_value(JSON_Array *arr,int val);
+inline void njson_set_value(JSON_Array *arr,const char &val);
+inline void njson_set_value(JSON_Array *arr,const bool &val);
+inline void njson_set_value(JSON_Array *arr,const short &val);
+inline void njson_set_value(JSON_Array *arr,const int &val);
 inline void njson_set_value(JSON_Array *arr,const float &val);
 inline void njson_set_value(JSON_Array *arr,const long long &val);
 inline void njson_set_value(JSON_Array *arr,const double &val);
@@ -76,17 +76,17 @@ inline void njson_get_value(JSON_Array *arr,size_t index,double *val);
  * */
 
 /*is_default_value*/
-inline bool is_default_value(char val){
+inline bool is_default_value(const char &val){
 	return val==DEFAULT_VALUE_CHAR;
 }
-inline bool is_default_value(bool val){
+inline bool is_default_value(const bool &val){
 	const static short i = 255;
 	return memcmp(&val,&i,sizeof(bool))==0;
 }
-inline bool is_default_value(short val){
+inline bool is_default_value(const short &val){
 	return val==DEFAULT_VALUE_SHORT;
 }
-inline bool is_default_value(int val){
+inline bool is_default_value(const int &val){
 	return val==DEFAULT_VALUE_INT;
 }
 inline bool is_default_value(const float &val){
@@ -100,16 +100,16 @@ inline bool is_default_value(const double &val){
 }
 
 /*njson_set_value*/
-inline void njson_set_value(JSON_Object *obj,const char *key,char val){
+inline void njson_set_value(JSON_Object *obj,const char *key,const char &val){
 	json_object_set(obj,key,val);
 }
-inline void njson_set_value(JSON_Object *obj,const char *key,bool val){
+inline void njson_set_value(JSON_Object *obj,const char *key,const bool &val){
 	json_object_set(obj,key,val);
 }
-inline void njson_set_value(JSON_Object *obj,const char *key,short val){
+inline void njson_set_value(JSON_Object *obj,const char *key,const short &val){
 	json_object_set(obj,key,val);
 }
-inline void njson_set_value(JSON_Object *obj,const char *key,int val){
+inline void njson_set_value(JSON_Object *obj,const char *key,const int &val){
 	json_object_set(obj,key,val);
 }
 inline void njson_set_value(JSON_Object *obj,const char *key,const float &val){
@@ -122,16 +122,16 @@ inline void njson_set_value(JSON_Object *obj,const char *key,const double &val){
 	json_object_set(obj,key,val);
 }
 
-inline void njson_set_value(JSON_Array *arr,char val){
+inline void njson_set_value(JSON_Array *arr,const char &val){
 	json_array_append(arr,val);
 }
-inline void njson_set_value(JSON_Array *arr,bool val){
+inline void njson_set_value(JSON_Array *arr,const bool &val){
 	json_array_append(arr,val);
 }
-inline void njson_set_value(JSON_Array *arr,short val){
+inline void njson_set_value(JSON_Array *arr,const short &val){
 	json_array_append(arr,val);
 }
-inline void njson_set_value(JSON_Array *arr,int val){
+inline void njson_set_value(JSON_Array *arr,const int &val){
 	json_array_append(arr,val);
 }
 inline void njson_set_value(JSON_Array *arr,const float &val){
