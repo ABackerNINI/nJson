@@ -1,11 +1,11 @@
 #pragma once
 
-#ifndef _UTILITIES_JSON_SUPPORT_POINTER_TYPE_H_
-#define _UTILITIES_JSON_SUPPORT_POINTER_TYPE_H_
+#ifndef _NJSON_SUPPORT_POINTER_TYPE_H_
+#define _NJSON_SUPPORT_POINTER_TYPE_H_
 
-#include "../parson.h"
+#include "../parson/parson.h"
 
-#define DEFAULT_VALUE_POINTER NULL
+#define NJSON_DEFAULT_VALUE_POINTER NULL
 
 /*
 	This file is to support the serialization and deserialization of pointer type.
@@ -21,33 +21,31 @@
 	See 'cstr_type.h' for reference.
 */
 
-template<typename _T>
-inline bool is_default_value(_T *val) {
-    return val == DEFAULT_VALUE_POINTER || is_default_value(*val);
+template<typename T>
+inline bool njson_is_default_value(T *njson_var);
+
+template<typename T>
+inline JSON_Value *njson_serialize(const T *&njson_var);
+
+template<typename T>
+inline void njson_deserialize(JSON_Value *njson_val, T **njson_var);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+template<typename T>
+inline bool njson_is_default_value(T *njson_var) {
+    return njson_var == NJSON_DEFAULT_VALUE_POINTER || njson_is_default_value(*njson_var);
 }
 
-template<typename _T>
-inline void njson_set_value(JSON_Object *obj, const char *key, _T *const res) {
-    njson_set_value(obj, key, *res);
+template<typename T>
+inline JSON_Value *njson_serialize(const T *&njson_var) {
+    return njson_serialize(*njson_var);
 }
 
-template<typename _T>
-inline void njson_set_value(JSON_Array *arr, _T *const res) {
-    njson_set_value(arr, *res);
+template<typename T>
+inline void njson_deserialize(JSON_Value *njson_val, T **njson_var) {
+    if (*njson_var == NULL)*njson_var = new T();
+    njson_deserialize(njson_val, *njson_var);
 }
 
-template<typename _T>
-inline void njson_get_value(JSON_Object *obj, const char *key, _T **res) {
-    if (json_object_has_value(obj, key)) {
-        if (*res == NULL)*res = new _T();
-        njson_get_value(obj, key, *res);
-    }
-}
-
-template<typename _T>
-inline void njson_get_value(JSON_Array *arr, size_t index, _T **res) {
-    if (*res == NULL)*res = new _T();
-    njson_get_value(arr, index, *res);
-}
-
-#endif//_UTILITIES_JSON_SUPPORT_POINTER_TYPE_H_
+#endif//_NJSON_SUPPORT_POINTER_TYPE_H_

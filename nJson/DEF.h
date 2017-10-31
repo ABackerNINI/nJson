@@ -5,8 +5,8 @@
 
 #include "nJson.h"
 
-#define SET(M) _SET(_root_obj_,M)
-#define GET(M) _GET(_root_obj_,M)
+#define SET(M) _SET(njson_val,M)
+#define GET(M) _GET(njson_val,M)
 #define SET_IF_KEY(M) if(strcmp(#M,_key_) == 0) { SET(M); } else
 #define SERIALIZE_SUPER_CLASS(S) _SERIALIZE_SUPER_CLASS(S)(_doc_,_key_)
 #define DESERIALIZE_SUPER_CLASS(S) _DESERIALIZE_SUPER_CLASS(S)(_doc_)
@@ -27,13 +27,13 @@ inline JSON_Value *serialize_to_doc(const _T &res, char *keys = NULL) {
                 if (*key == '\0') {
                     cut = true;
                 } else if (cut) {
-                    res.serialize(doc, key);
+                    res.njson_serialize(doc, key);
                     --n;
                     cut = false;
                 }
             }
-        } else res.serialize(doc);
-    } else res.serialize(doc);
+        } else res.njson_serialize();
+    } else res.njson_serialize();
 
     return doc;
 }
@@ -53,7 +53,7 @@ inline char *serialize(const _T &res, char *keys = NULL) {
 template<typename _T>
 inline void deserialize(_T *res, const char *s) {
     JSON_Value *doc = json_parse_string(s);
-    res->deserialize(doc);
+    res->njson_deserialize(doc);
 
     json_value_free(doc);
 }

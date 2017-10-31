@@ -1,68 +1,132 @@
 #pragma once
 
-#ifndef _UTILITIES_JSON_SUPPORT_MAP_TYPE_H_
-#define _UTILITIES_JSON_SUPPORT_MAP_TYPE_H_
+#ifndef _NJSON_SUPPORT_MAP_TYPE_H_
+#define _NJSON_SUPPORT_MAP_TYPE_H_
 
 #include <map>
-#include "../parson.h"
-#include "to_string.h"
-#include "string_to.h"
-#include "string_type.h"
+#include <string>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include "../parson/parson.h"
 
 /*
-	This file is to support the serialization and deserialization of type 'std::map<_T1,_T2>'.
-	note that this file relies on "to_string.h" and "string_to.h".
+	This file is to support the serialization and deserialization of type 'std::map<T1,T2>'.
+	Need to implement njson_to_string(T1) and njson_string_to(const char *,T1*).
 */
 
-template<typename _T_KEY, typename _T_VAL>
-inline bool is_default_value(const std::map<_T_KEY, _T_VAL> &val) {
-    return val.size() == 0;
+/*njson_to_string*/
+inline std::string njson_to_string(const char &val);
+
+inline std::string njson_to_string(const bool &val);
+
+inline std::string njson_to_string(const char *&val);
+
+inline std::string njson_to_string(const double &val);
+
+inline const std::string &njson_to_string(const std::string &val);
+
+/*njson_string_to*/
+inline void njson_string_to(const char *s, char *val);
+
+inline void njson_string_to(const char *s, bool *val);
+
+inline void njson_string_to(const char *s, double *val);
+
+inline void njson_string_to(const char *s, const char **val);
+
+inline void njson_string_to(const char *s, std::string *val);
+
+/*support map<T1,T2>*/
+template<typename T1, typename T2>
+inline bool njson_is_default_value(const std::map<T1, T2> &njson_var);
+
+template<typename T1, typename T2>
+inline JSON_Value *njson_serialize(const std::map<T1, T2> &njson_var);
+
+template<typename T1, typename T2>
+inline void njson_deserialize(JSON_Value *njson_val, std::map<T1, T2> *njson_var);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+inline std::string njson_to_string(const char &val) {
+    char tmp[2];
+    tmp[0] = val;
+    tmp[1] = '\0';
+
+    return std::string(tmp);
 }
 
-/*njson_set_value*/
-template<typename _T_KEY, typename _T_VAL>
-void njson_set_value(JSON_Object *obj, const char *key, const std::map<_T_KEY, _T_VAL> &val) {
-    if (key != NULL) {
-        json_object_set_value(obj, key, json_value_init_object());
-        JSON_Value *doc = json_object_get_value(obj, key);
-        obj = json_value_get_object(doc);
-    }
-    typename std::map<_T_KEY, _T_VAL>::const_iterator it;
-    for (it = val.begin(); it != val.end(); ++it) {
-        njson_set_value(obj, to_string(it->first).c_str(), it->second);
-    }
+inline std::string njson_to_string(const bool &val) {
+    return val ? std::string("true") : std::string("false");
 }
 
-template<typename _T_KEY, typename _T_VAL>
-void njson_set_value(JSON_Array *arr, const std::map<_T_KEY, _T_VAL> &val) {
+inline std::string njson_to_string(const char *&val) {
+    return std::string(val);
+}
+
+inline std::string njson_to_string(const double &val) {
+    char tmp[30];
+    sprintf(tmp, "%lf", val);
+    return std::string(tmp);
+}
+
+inline const std::string &njson_to_string(const std::string &val) {
+    return val;
+}
+
+/*string_to*/
+inline void njson_string_to(const char *s, char *val) {
+    *val = s[0];
+}
+
+inline void njson_string_to(const char *s, bool *val) {
+    *val = (strcmp(s, "true") == 0);
+}
+
+inline void njson_string_to(const char *s, double *val) {
+    *val = atof(s);
+}
+
+inline void njson_string_to(const char *s, const char **val) {
+    *val = s;
+}
+
+inline void njson_string_to(const char *s, std::string *val) {
+    *val = std::string(s);
+}
+
+template<typename T1, typename T2>
+inline bool njson_is_default_value(const std::map<T1, T2> &njson_var) {
+    return njson_var.size() == 0;
+}
+
+template<typename T1, typename T2>
+inline JSON_Value *njson_serialize(const std::map<T1, T2> &njson_var) {
     JSON_Value *doc = json_value_init_object();
     JSON_Object *obj = json_value_get_object(doc);
-    njson_set_value(obj, NULL, val);
-    json_array_append_value(arr, doc);
-}
 
-/*njson_get_value*/
-template<typename _T_KEY, typename _T_VAL>
-void njson_get_value(JSON_Object *obj, const char *key, std::map<_T_KEY, _T_VAL> *val) {
-    if (key != NULL)obj = json_object_get_object(obj, key);
-    if (obj == NULL)return;
+    typename std::map<T1, T2>::const_iterator it;
+    for (it = njson_var.begin(); it != njson_var.end(); ++it) {
+        json_object_set_value(obj, njson_to_string(it->first).c_str(), njson_serialize(it->second));
+    }
+
+    return doc;
+};
+
+template<typename T1, typename T2>
+inline void njson_deserialize(JSON_Value *njson_val, std::map<T1, T2> *njson_var) {
+    JSON_Object *obj = json_value_get_object(njson_val);
     size_t n = json_object_get_count(obj);
     const char *name;
-    _T_KEY mkey;
-    _T_VAL mval;
+    T1 key;
+    T2 val;
     for (size_t i = 0; i < n; ++i) {
         name = json_object_get_name(obj, i);
-        string_to(name, &mkey);
-        njson_get_value(obj, name, &mval);
-        (*val)[mkey] = mval;
+        njson_string_to(name, &key);
+        njson_deserialize(json_object_get_value_at(obj, i), &val);
+        (*njson_var)[key] = val;
     }
-}
+};
 
-template<typename _T_KEY, typename _T_VAL>
-void njson_get_value(JSON_Array *arr, size_t index, std::map<_T_KEY, _T_VAL> *val) {
-    size_t n = json_array_get_count(arr);
-    JSON_Object *obj = json_array_get_object(arr, index);
-    njson_get_value(obj, NULL, val);
-}
-
-#endif//_UTILITIES_JSON_SUPPORT_MAP_TYPE_H_
+#endif//_NJSON_SUPPORT_MAP_TYPE_H_
