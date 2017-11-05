@@ -3,6 +3,7 @@
 #include <map>
 #include <list>
 #include <string>
+
 //#include "resource/Res.h"
 #include "nJson/DEF.h"
 
@@ -23,7 +24,7 @@ public:
     int a;
     std::string *s;
     std::map<std::string, std::string> m;
-    std::map<int,int *>m2;
+    std::map<double,int *>m2;
 };
 
 int main() {
