@@ -14,13 +14,10 @@ set(NJSON_FILE_TREE
         nJson/support/list_type.h
         nJson/support/map_type.h
         nJson/support/pointer_type.h
-#        nJson/support/string_to.h
         nJson/support/string_type.h
-#        nJson/support/to_string.h
         nJson/support/userdef_type.h
         nJson/DEF.h
         nJson/nJson.h
-#        nJson/parson.h
         )
 
 set(RESOURCE
