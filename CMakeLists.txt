@@ -18,6 +18,7 @@ set(NJSON_FILE_TREE
         nJson/support/userdef_type.h
         nJson/DEF.h
         nJson/nJson.h
+        nJson/support/support_base.h
         )
 
 set(RESOURCE
