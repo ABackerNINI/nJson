@@ -1,8 +1,8 @@
 ## About
-This is a C++0x serialize-to-json lib based on [parson](https://github.com/kgabis/parson.git).
+This is a C++98 serialize-to-json lib based on [parson](https://github.com/kgabis/parson.git).
 
 ## Features
-* C++0x Compatible
+* C++98 Compatible
 * Intrusive or non-intrusive
 
 ## Installation
