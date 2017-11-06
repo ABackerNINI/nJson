@@ -11,72 +11,20 @@
 struct Res {
 public:
     Res() :
-            c(DEFAULT_VALUE_CHAR),
-            // b(DEFAULT_VALUE_BOOL),
-            s(DEFAULT_VALUE_SHORT),
-            i(DEFAULT_VALUE_INT),
-            f(DEFAULT_VALUE_FLOAT),
-            ll(DEFAULT_VALUE_LONG_LONG),
-            d(DEFAULT_VALUE_DOUBLE),
-            pc(DEFAULT_VALUE_CSTR),
-            pir(DEFAULT_VALUE_POINTER),
-            ppir(DEFAULT_VALUE_POINTER) {
+            c(NJSON_DEFAULT_VALUE_CHAR),
+            // b(NJSON_DEFAULT_VALUE_BOOL),
+            s(NJSON_DEFAULT_VALUE_SHORT),
+            i(NJSON_DEFAULT_VALUE_INT),
+            f(NJSON_DEFAULT_VALUE_FLOAT),
+            ll(NJSON_DEFAULT_VALUE_LONG_LONG),
+            d(NJSON_DEFAULT_VALUE_DOUBLE),
+            pc(NJSON_DEFAULT_VALUE_CSTR),
+            pir(NJSON_DEFAULT_VALUE_POINTER),
+            ppir(NJSON_DEFAULT_VALUE_POINTER) {
         /*init bool*/
         memset(&b, -1, sizeof(bool));
     }
 
-    bool serialize(JSON_Value *_doc_, const char *_key_ = NULL) const {
-        JSON_Object *_root_obj_ = json_value_get_object(_doc_);
-        {
-            if (_key_ == NULL) {
-                SET(c);
-                SET(b);
-                SET(s);
-                SET(i);
-                SET(f);
-                SET(ll);
-                SET(d);
-                SET(pc);
-                SET(m);
-                SET(l);
-                SET(lm);
-                SET(ir);
-                SET(pir);
-                SET(ppir);
-                SET(mir);
-            } else {
-                SET_IF_KEY(c) SET_IF_KEY(b) SET_IF_KEY(s) SET_IF_KEY(i) SET_IF_KEY(f) SET_IF_KEY(ll) SET_IF_KEY(
-                        d) SET_IF_KEY(pc) SET_IF_KEY(m) SET_IF_KEY(l) SET_IF_KEY(lm) SET_IF_KEY(ir) SET_IF_KEY(
-                        pir) SET_IF_KEY(ppir) SET_IF_KEY(mir) {
-                    //TODO:handle error
-                    return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    void deserialize(JSON_Value *_doc_) {
-        JSON_Object *_root_obj_ = json_value_get_object(_doc_);
-        {
-            GET(c);
-            GET(b);
-            GET(s);
-            GET(i);
-            GET(f);
-            GET(ll);
-            GET(d);
-            GET(pc);
-            GET(m);
-            GET(l);
-            GET(lm);
-            GET(ir);
-            GET(pir);
-            GET(ppir);
-            GET(mir);
-        }
-    }
 
     char &get_c() { return c; }
 
@@ -143,11 +91,53 @@ public:
     void set_mpir(const std::map<std::string, InnerRes *> &mpir) { this->mpir = mpir; }
 
     ~Res() {
-        if (pc)delete[] pc;
+//        if (pc)delete[] pc;
         if (pir)delete pir;
         if (ppir && *ppir)delete *ppir;
         if (ppir)delete ppir;
         //TODO free mpir
+    }
+
+    bool is_default_value() const {
+        return false;
+    }
+
+    void njson_serialize(JSON_Value *njson_val) const {
+        SET(c);
+        SET(b);
+        SET(s);
+        SET(i);
+        SET(f);
+        SET(ll);
+        SET(d);
+        SET(pc);
+        SET(m);
+        SET(l);
+        SET(lm);
+        SET(ir);
+        SET(pir);
+        SET(ppir);
+        SET(mir);
+        SET(mpir);
+    }
+
+    void njson_deserialize(JSON_Value *njson_val) {
+        GET(c);
+        GET(b);
+        GET(s);
+        GET(i);
+        GET(f);
+        GET(ll);
+        GET(d);
+        GET(pc);
+        GET(m);
+        GET(l);
+        GET(lm);
+        GET(ir);
+        GET(pir);
+        GET(ppir);
+        GET(mir);
+        GET(mpir);
     }
 
 private:

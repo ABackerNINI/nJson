@@ -10,29 +10,19 @@
 struct Super {
 public:
     Super() :
-            id(DEFAULT_VALUE_INT) {
+            id(NJSON_DEFAULT_VALUE_INT) {
     }
 
-    bool serialize(JSON_Value *_doc_, const char *_key_ = NULL) const {
-        JSON_Object *_root_obj_ = json_value_get_object(_doc_);
-        {
-            if (_key_ == NULL) {
-                SET(id);
-            } else {
-                SET_IF_KEY(id) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
+    bool is_default_value() const {
+        return false;
     }
 
-    void deserialize(JSON_Value *_doc_) {
-        JSON_Object *_root_obj_ = json_value_get_object(_doc_);
-        {
-            GET(id);
-        }
+    void njson_serialize(JSON_Value *njson_val) const {
+        SET(id);
+    }
+
+    void njson_deserialize(JSON_Value *njson_val) {
+        GET(id);
     }
 
     int &get_id() { return id; }
@@ -46,41 +36,27 @@ private:
 struct InnerRes : public Super {
 public:
     InnerRes() :
-            type(DEFAULT_VALUE_INT) {
+            type(NJSON_DEFAULT_VALUE_INT) {
     }
 
-    // bool isUninitialized() const {
-    // 	return type==DEFAULT_VALUE_INT && key==DEFAULT_VALUE_CSTR && val == DEFAULT_VALUE_CSTR;
-    // }
+    bool is_default_value() const {
+        return false;
+    }
 
-    bool serialize(JSON_Value *_doc_, const char *_key_ = NULL) const {
+    void njson_serialize(JSON_Value *njson_val) const {
         SERIALIZE_SUPER_CLASS(Super);
 
-        JSON_Object *_root_obj_ = json_value_get_object(_doc_);
-        {
-            if (_key_ == NULL) {
-                SET(type);
-                SET(key);
-                SET(val);
-            } else {
-                SET_IF_KEY(type) SET_IF_KEY(key) SET_IF_KEY(val) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
+        SET(type);
+        SET(key);
+        SET(val);
     }
 
-    void deserialize(JSON_Value *_doc_) {
+    void njson_deserialize(JSON_Value *njson_val) {
         DESERIALIZE_SUPER_CLASS(Super);
 
-        JSON_Object *_root_obj_ = json_value_get_object(_doc_);
-        {
-            GET(type);
-            GET(key);
-            GET(val);
-        }
+        GET(type);
+        GET(key);
+        GET(val);
     }
 
     int &get_type() { return type; }
