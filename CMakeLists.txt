@@ -9,21 +9,21 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
 set(NJSON_FILE_TREE
         nJson/parson/parson.c
         nJson/parson/parson.h
+        nJson/type_traits/type_traits.h
         nJson/support/basic_type.h
         nJson/support/cstr_type.h
         nJson/support/list_type.h
         nJson/support/map_type.h
         nJson/support/pointer_type.h
         nJson/support/string_type.h
-        nJson/support/userdef_type.h
         nJson/DEF.h
         nJson/nJson.h
         nJson/support/support_base.h
         )
 
 set(RESOURCE
-#        resource/InnerRes.h
-#        resource/Res.h
+        resource/InnerRes.h
+        resource/Res.h
         )
 
 add_executable(nJson main.cpp

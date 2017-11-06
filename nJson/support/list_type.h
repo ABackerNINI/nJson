@@ -4,50 +4,38 @@
 #define _NJSON_SUPPORT_LIST_TYPE_H_
 
 #include <list>
-#include "../parson/parson.h"
+#include "support_base.h"
 
 /*
 	This file is to support the serialization and deserialization of type 'std::list<T>'.
 */
 
 template<typename T>
-inline bool njson_is_default_value(const std::list<T> &njson_var);
-
-template<typename T>
-inline JSON_Value *njson_serialize(const std::list<T> &njson_var);
-
-template<typename T>
-inline void njson_deserialize(JSON_Value *njson_val, std::list<T> *njson_var);
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-template<typename T>
-inline bool njson_is_default_value(const std::list<T> &njson_var) {
-    return njson_var.size() == 0;
-}
-
-template<typename T>
-inline JSON_Value *njson_serialize(const std::list<T> &njson_var) {
-    JSON_Value *doc = json_value_init_array();
-    JSON_Array *arr = json_value_get_array(doc);
-
-    typename std::list<T>::const_iterator it;
-    for (it = njson_var.begin(); it != njson_var.end(); ++it) {
-        json_array_append_value(arr, njson_serialize(*it));
+struct njson_support<std::list<T> > {
+    static bool is_default_value(const std::list<T> &njson_var) {
+        return njson_var.size() == 0;
     }
 
-    return doc;
-}
+    static void serialize(JSON_Value *njson_val, const char *njson_name, const std::list<T> &njson_var) {
+        JSON_Value *doc = json_value_init_array();
 
-template<typename T>
-inline void njson_deserialize(JSON_Value *njson_val, std::list<T> *njson_var) {
-    JSON_Array *arr = json_value_get_array(njson_val);
-    size_t n = json_array_get_count(arr);
-    T tmp;
-    for (size_t i = 0; i < n; ++i) {
-        njson_deserialize(json_array_get_value(arr, i), &tmp);
-        njson_var->push_back(tmp);
+        typename std::list<T>::const_iterator it;
+        for (it = njson_var.begin(); it != njson_var.end(); ++it) {
+            njson_serialize(doc, NULL, *it);
+        }
+
+        njson_value_set_value(njson_val, njson_name, doc);
     }
-}
+
+    static void deserialize(JSON_Value *njson_val, std::list<T> *njson_var) {
+        JSON_Array *arr = json_value_get_array(njson_val);
+        size_t n = json_array_get_count(arr);
+        T tmp;
+        for (size_t i = 0; i < n; ++i) {
+            njson_deserialize(json_array_get_value(arr, i), &tmp);
+            njson_var->push_back(tmp);
+        }
+    }
+};
 
 #endif//_NJSON_SUPPORT_LIST_TYPE_H_
