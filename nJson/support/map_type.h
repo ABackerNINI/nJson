@@ -3,60 +3,246 @@
 #ifndef _NJSON_SUPPORT_MAP_TYPE_H_
 #define _NJSON_SUPPORT_MAP_TYPE_H_
 
+#include "support_base.h"
+
 #include <map>
 #include <string>
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
-#include "support_base.h"
+
+#include "../type_traits/type_traits.h"
 
 /*
 	This file is to support the serialization and deserialization of type 'std::map<T1,T2>'.
-	Need to implement njson_to_string(T1) and njson_string_to(const char *,T1 *).
+	Need to implement:
+        template<>struct njson_map_support<T>::static std::string to_string(const bool &val);
+        template<>struct njson_map_support<T>::static void string_to(const char *s, bool *val);
 */
 
-/*njson_to_string*/
-inline std::string njson_to_string(const char &val);
+template<typename T>
+struct njson_map_support {
+};
 
-inline std::string njson_to_string(const bool &val);
+template<>
+struct njson_map_support<bool> {
+    static std::string to_string(const bool &val) {
+        return val ? std::string("true") : std::string("false");
+    }
 
-inline std::string njson_to_string(const short &val);
+    static void string_to(const char *s, bool *val) {
+        *val = (strcmp(s, "true") == 0);
+    }
+};
 
-inline std::string njson_to_string(const int &val);
+template<>
+struct njson_map_support<char> {
+    static std::string to_string(const char &val) {
+        char tmp[2];
+        tmp[0] = val;
+        tmp[1] = '\0';
 
-inline std::string njson_to_string(const long long &val);
+        return std::string(tmp);
+    }
 
-inline std::string njson_to_string(const float &val);
+    static void string_to(const char *s, char *val) {
+        *val = s[0];
+    }
+};
 
-inline std::string njson_to_string(const double &val);
+template<>
+struct njson_map_support<unsigned char> {
+    static std::string to_string(const unsigned char &val) {
+        char tmp[2];
+        tmp[0] = (char) val;
+        tmp[1] = '\0';
 
-inline std::string njson_to_string(const char *val);
+        return std::string(tmp);
+    }
 
-inline const std::string &njson_to_string(const std::string &val);
+    static void string_to(const char *s, unsigned char *val) {
+        *val = (unsigned char) s[0];
+    }
+};
 
-/*njson_string_to*/
-inline void njson_string_to(const char *s, char *val);
+template<>
+struct njson_map_support<signed char> {
+    static std::string to_string(const signed char &val) {
+        char tmp[2];
+        tmp[0] = (char) val;
+        tmp[1] = '\0';
 
-inline void njson_string_to(const char *s, bool *val);
+        return std::string(tmp);
+    }
 
-inline void njson_string_to(const char *s, short *val);
+    static void string_to(const char *s, signed char *val) {
+        *val = (signed char) s[0];
+    }
+};
 
-inline void njson_string_to(const char *s, int *val);
+#if(_NATIVE_WCHAR_T_DEFINED /*Windows*/ || _GLIBCXX_USE_WCHAR_T /*Unix*/)
 
-inline void njson_string_to(const char *s, long long *val);
+template<>
+struct njson_map_support<wchar_t> {
+    static std::string to_string(const wchar_t &val) {
+        char tmp[10];
+        wchar_t wtmp[2];
+        {
+            wtmp[0] = val;
+            wtmp[1] = L'\0';
+        }
 
-inline void njson_string_to(const char *s, float *val);
+        wcstombs(tmp, wtmp, 10);
 
-inline void njson_string_to(const char *s, double *val);
+        return std::string(tmp);
+    }
 
-inline void njson_string_to(const char *s, const char **val);
+    static void string_to(const char *s, wchar_t *val) {
+        wchar_t wtmp[2];
 
-inline void njson_string_to(const char *s, std::string *val);
+        mbstowcs(wtmp, s, 2);
 
+        *val = wtmp[0];
+    }
+};
+
+#endif
+
+template<typename T>
+struct njson_map_support_integral_unsigned_base {
+    static std::string to_string(const T &val) {
+        char tmp[30];
+        sprintf(tmp, "%llu", (unsigned long long) val);
+
+        return std::string(tmp);
+    }
+
+    static void string_to(const char *s, T *val) {
+        *val = (T) strtoull(s, NULL, 10);
+    }
+};
+
+template<typename T>
+struct njson_map_support_integral_signed_base {
+    static std::string to_string(const T &val) {
+        char tmp[30];
+        sprintf(tmp, "%lld", (signed long long) val);
+
+        return std::string(tmp);
+    }
+
+    static void string_to(const char *s, T *val) {
+        *val = (T) strtoll(s, NULL, 10);
+    }
+};
+
+template<>
+struct njson_map_support<unsigned short> : njson_map_support_integral_unsigned_base<unsigned short> {
+};
+
+template<>
+struct njson_map_support<signed short> : njson_map_support_integral_signed_base<signed short> {
+};
+
+template<>
+struct njson_map_support<unsigned int> : njson_map_support_integral_unsigned_base<signed short> {
+};
+
+template<>
+struct njson_map_support<signed int> : njson_map_support_integral_signed_base<signed int> {
+};
+
+template<>
+struct njson_map_support<unsigned long> : njson_map_support_integral_unsigned_base<unsigned long> {
+};
+
+template<>
+struct njson_map_support<signed long> : njson_map_support_integral_signed_base<signed long> {
+};
+
+template<>
+struct njson_map_support<unsigned long long> : njson_map_support_integral_unsigned_base<unsigned long long> {
+};
+
+template<>
+struct njson_map_support<signed long long> : njson_map_support_integral_signed_base<signed long long> {
+};
+
+template<typename T>
+struct njson_map_support_floating_point_base {
+    static std::string to_string(const T &val) {
+        char tmp[30];
+        sprintf(tmp, "%lf", (double) val);
+
+        return std::string(tmp);
+    }
+
+    static void string_to(const char *s, T *val) {
+        *val = (T) strtod(s, NULL);
+    }
+};
+
+template<>
+struct njson_map_support<float> : njson_map_support_floating_point_base<float> {
+};
+
+template<>
+struct njson_map_support<double> : njson_map_support_floating_point_base<double> {
+};
+
+template<>
+struct njson_map_support<long double> : njson_map_support_floating_point_base<long double> {
+};
+
+template<typename T>
+std::string njson_to_string(const T &val) {
+    return njson_map_support<typename std::remove_cv<T>::type>::to_string(val);
+}
+
+template<typename T>
+void njson_string_to(const char *s, T *val) {
+    njson_map_support<typename std::remove_cv<T>::type>::string_to(s, val);
+}
+
+template<>
+struct njson_map_support<std::string> {
+    static std::string to_string(const std::string &val) {
+        return val;
+    }
+
+    static void string_to(const char *s, std::string *val) {
+        *val = std::string(s);
+    }
+};
+
+template<>
+struct njson_map_support<char *> {
+    static std::string to_string(const char *val) {
+        return std::string(val);
+    }
+
+    static void string_to(const char *s, char **val) {
+        *val = strdup(s);
+    }
+};
+
+template<>
+struct njson_map_support<const char *> {
+    static std::string to_string(const char *val) {
+        return std::string(val);
+    }
+
+    static void string_to(const char *s, const char **val) {
+        ////TODO:test
+        *val = s;
+    }
+};
+
+/*support std::map<T1, T2>*/
 template<typename T1, typename T2>
 struct njson_support<std::map<T1, T2> > {
     static bool is_default_value(const std::map<T1, T2> &njson_var) {
-        return njson_var.size() == 0;
+        return njson_var.empty();
     }
 
     static void serialize(JSON_Value *njson_val, const char *njson_name, const std::map<T1, T2> &njson_var) {
@@ -84,95 +270,5 @@ struct njson_support<std::map<T1, T2> > {
         }
     }
 };
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/*njson_to_string*/
-inline std::string njson_to_string(const char &val) {
-    char tmp[2];
-    tmp[0] = val;
-    tmp[1] = '\0';
-
-    return std::string(tmp);
-}
-
-inline std::string njson_to_string(const bool &val) {
-    return val ? std::string("true") : std::string("false");
-}
-
-inline std::string njson_to_string(const short &val) {
-    char tmp[30];
-    sprintf(tmp, "%d", val);
-    return std::string(tmp);
-}
-
-inline std::string njson_to_string(const int &val) {
-    char tmp[30];
-    sprintf(tmp, "%d", val);
-    return std::string(tmp);
-}
-
-inline std::string njson_to_string(const long long &val) {
-    char tmp[30];
-    sprintf(tmp, "%lld", val);
-    return std::string(tmp);
-}
-
-inline std::string njson_to_string(const float &val) {
-    char tmp[30];
-    sprintf(tmp, "%f", val);
-    return std::string(tmp);
-}
-
-inline std::string njson_to_string(const double &val) {
-    char tmp[30];
-    sprintf(tmp, "%lf", val);
-    return std::string(tmp);
-}
-
-inline std::string njson_to_string(const char *val) {
-    return std::string(val);
-}
-
-inline const std::string &njson_to_string(const std::string &val) {
-    return val;
-}
-
-/*string_to*/
-inline void njson_string_to(const char *s, char *val) {
-    *val = s[0];
-}
-
-inline void njson_string_to(const char *s, bool *val) {
-    *val = (strcmp(s, "true") == 0);
-}
-
-inline void njson_string_to(const char *s, short *val) {
-    *val = (short) atoi(s);
-}
-
-inline void njson_string_to(const char *s, int *val) {
-    *val = atoi(s);
-}
-
-inline void njson_string_to(const char *s, long long *val) {
-    *val = atoll(s);
-}
-
-inline void njson_string_to(const char *s, float *val) {
-    *val = (float) atof(s);
-}
-
-inline void njson_string_to(const char *s, double *val) {
-    *val = atof(s);
-}
-
-inline void njson_string_to(const char *s, const char **val) {
-    *val = s;
-}
-
-inline void njson_string_to(const char *s, std::string *val) {
-    *val = std::string(s);
-}
 
 #endif//_NJSON_SUPPORT_MAP_TYPE_H_
