@@ -1,9 +1,7 @@
-//
-// Created by nini on 11/5/17.
-//
+#pragma once
 
-#ifndef _NJSON_SUPPORT_BASE_H_
-#define _NJSON_SUPPORT_BASE_H_
+#ifndef _NJSON_SUPPORT_SUPPORT_BASE_H_
+#define _NJSON_SUPPORT_SUPPORT_BASE_H_
 
 #include "../type_traits/type_traits.h"
 #include "../parson/parson.h"
@@ -81,4 +79,4 @@ void njson_deserialize(JSON_Value *njson_val, T *njson_var) {
     return njson_support<typename std::remove_cv<T>::type>::deserialize(njson_val, njson_var);
 }
 
-#endif //_NJSON_SUPPORT_BASE_H_
+#endif //_NJSON_SUPPORT_SUPPORT_BASE_H_

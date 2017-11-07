@@ -9,12 +9,15 @@
 
 /*
 	This file is to support the serialization and deserialization of basic types,
-  	including char, bool, short, int, float, long long, double.
+  	including:
+  	    bool,char,unsigned char,signed char,wchar_t,unsigned short,signed short,unsigned int,
+  	    signed int,unsigned long,signed long,long long,unsigned long long,float,double,long double.
+
+  	Note that type 'long double' will be converted to 'double' during (de)serialization and loss precision.
 */
 
-/*! basic types should always be initialized to avoid a random value*/
-/*! type 'bool' should be initialized by memset(&bool_val,-1,sizeof(bool))*/
-/*! DO NOT USE TEMPLATE HERE to make sure basic types match first*/
+/*! Basic types should always be initialized to avoid a random value*/
+/*! Type 'bool' should be initialized by memset(&bool_val,-1,sizeof(bool))*/
 
 #define NJSON_DEFAULT_VALUE_BOOL      ((short)-1)
 #define NJSON_DEFAULT_VALUE_CHAR      ((char)-1)

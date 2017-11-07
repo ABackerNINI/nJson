@@ -9,15 +9,8 @@
 
 /*
 	This file is to support the serialization and deserialization of pointer type.
-	implements:
-		bool is_default_value(_T *)
-		void njson_set_value(JSON_Object *,const char *,const _T &);
-		void njson_set_value(JSON_Array *,const _T &);
-		void njson_get_value(JSON_Object *,const char *,_T *);
-		void njson_get_value(JSON_Array *,size_t index,_T *);
-	to support type '_T' and '*_T' along with '**_T' and '(n*)_T'.
 
-	Note that you need to implement your own functions to support pointers point to array.
+	Note that you need to implement your own functions to support pointers point to arrays.
 	See 'cstr_type.h' for reference.
 */
 

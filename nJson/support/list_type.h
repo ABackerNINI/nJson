@@ -13,7 +13,7 @@
 template<typename T>
 struct njson_support<std::list<T> > {
     static bool is_default_value(const std::list<T> &njson_var) {
-        return njson_var.size() == 0;
+        return njson_var.empty();
     }
 
     static void serialize(JSON_Value *njson_val, const char *njson_name, const std::list<T> &njson_var) {
