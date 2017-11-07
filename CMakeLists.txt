@@ -16,9 +16,10 @@ set(NJSON_FILE_TREE
         nJson/support/map_type.h
         nJson/support/pointer_type.h
         nJson/support/string_type.h
+        nJson/support/support_base.h
+        nJson/support/vector_type.h
         nJson/DEF.h
         nJson/nJson.h
-        nJson/support/support_base.h
         )
 
 set(RESOURCE
