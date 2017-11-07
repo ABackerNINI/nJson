@@ -35,6 +35,25 @@ int main() {
             m["3"] = "4";
         }
         res.set_m(m);
+
+        std::map<int, double> mid;
+        {
+            mid[1] = 2.0;
+            mid[2] = 3.0;
+        }
+        res.set_mid(mid);
+
+        std::map<const char *,const char *> mcc;
+        {
+            char *s1 = new char[10];
+            char *s2 = new char[10];
+            strcpy(s1, "123456");
+            strcpy(s2, "7890");
+            mcc[s1] = s2;
+            mcc[s2] = s1;
+        }
+        res.set_mcc(mcc);
+
         res.get_lm().push_back(m);
         res.get_lm().push_back(m);
         res.get_lm().push_back(m);

@@ -76,6 +76,10 @@ public:
 
     void set_m(const std::map<std::string, std::string> &m) { this->m = m; }
 
+    void set_mid(const std::map<int, double> &mid) { this->mid = mid; }
+
+    void set_mcc(const std::map<const char *, const char *> &mcc) { this->mcc = mcc; }
+
     void set_l(const std::list<int> &l) { this->l = l; }
 
     void set_lm(const std::list<std::map<std::string, std::string> > &lm) { this->lm = lm; }
@@ -112,6 +116,8 @@ public:
         SET(d);
         SET(pc);
         SET(m);
+        SET(mid);
+        SET(mcc);
         SET(l);
         SET(lm);
         SET(ir);
@@ -131,6 +137,8 @@ public:
         GET(d);
         GET(pc);
         GET(m);
+        GET(mid);
+        GET(mcc);
         GET(l);
         GET(lm);
         GET(ir);
@@ -155,6 +163,8 @@ private:
 
     //map list test
     std::map<std::string, std::string> m;
+    std::map<int, double> mid;
+    std::map<const char *, const char *> mcc;
     std::list<int> l;
     std::list<std::map<std::string, std::string> > lm;
 
