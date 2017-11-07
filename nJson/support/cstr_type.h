@@ -3,13 +3,18 @@
 #ifndef _NJSON_SUPPORT_CSTR_TYPE_H_
 #define _NJSON_SUPPORT_CSTR_TYPE_H_
 
-#include <memory.h>
 #include "support_base.h"
 
 /*
 	This file is to support the serialization and deserialization of type 'char *'.
+
 	Note that this file support the c-style string end with '/0'.
 */
+
+/*! Be attention to the difference between "char *" and "const char *".
+ *  Type "char *" will dump c-string from JSON_Value when deserialization while "const char *" not.
+ *  So,you should free "char *" after using it but keep "const char *".
+ * */
 
 #define NJSON_DEFAULT_VALUE_CSTR NULL
 
@@ -26,7 +31,7 @@ struct njson_support<char *> {
     static void deserialize(JSON_Value *njson_val, char **njson_var) {
         const char *tmp = json_value_get_string(njson_val);
 
-        if (tmp)*njson_var = strdup(*njson_var);
+        if (tmp)*njson_var = strdup(tmp);
     }
 };
 
@@ -41,6 +46,7 @@ struct njson_support<const char *> {
     }
 
     static void deserialize(JSON_Value *njson_val, const char **njson_var) {
+        ////TODO:test
         *njson_var = json_value_get_string(njson_val);
     }
 };
