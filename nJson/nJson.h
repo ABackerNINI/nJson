@@ -21,7 +21,9 @@
 #include "support/basic_type.h"
 #include "support/cstr_type.h"
 #include "support/string_type.h"
+
 #include "support/list_type.h"
+#include "support/vector_type.h"
 #include "support/map_type.h"
 #include "support/pointer_type.h"
 
