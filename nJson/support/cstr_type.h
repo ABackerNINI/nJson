@@ -12,8 +12,9 @@
 */
 
 /*! Be attention to the difference between "char *" and "const char *".
- *  Type "char *" will dump c-string from JSON_Value when deserialization while "const char *" not.
- *  So,you should free "char *" after using it but keep "const char *".
+ *  Type "char *" will dump c-string from "JSON_Value" when deserialization while "const char *" not.
+ *  So,first,you should free "char *" after using it but keep "const char *".
+ *  Second,you should not free "JSON_Value" before using "const char *" got from it.
  * */
 
 #define NJSON_DEFAULT_VALUE_CSTR NULL
