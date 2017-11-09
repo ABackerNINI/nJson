@@ -18,11 +18,11 @@ public:
     }
 
     void njson_serialize(JSON_Value *njson_val) const {
-        SET(id);
+        NJSON_SET(id);
     }
 
     void njson_deserialize(JSON_Value *njson_val) {
-        GET(id);
+        NJSON_GET(id);
     }
 
     int &get_id() { return id; }
@@ -44,19 +44,19 @@ public:
     }
 
     void njson_serialize(JSON_Value *njson_val) const {
-        SERIALIZE_SUPER_CLASS(Super);
+        NJSON_SERIALIZE_SUPER_CLASS(Super);
 
-        SET(type);
-        SET(key);
-        SET(val);
+        NJSON_SET(type);
+        NJSON_SET(key);
+        NJSON_SET(val);
     }
 
     void njson_deserialize(JSON_Value *njson_val) {
-        DESERIALIZE_SUPER_CLASS(Super);
+        NJSON_DESERIALIZE_SUPER_CLASS(Super);
 
-        GET(type);
-        GET(key);
-        GET(val);
+        NJSON_GET(type);
+        NJSON_GET(key);
+        NJSON_GET(val);
     }
 
     int &get_type() { return type; }

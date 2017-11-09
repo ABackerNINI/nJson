@@ -78,7 +78,7 @@ public:
 
     void set_mid(const std::map<int, double> &mid) { this->mid = mid; }
 
-    void set_mcc(const std::map<const char *, const char *> &mcc) { this->mcc = mcc; }
+    void set_mcc(const std::map<char *, char *> &mcc) { this->mcc = mcc; }
 
     void set_l(const std::list<int> &l) { this->l = l; }
 
@@ -107,45 +107,45 @@ public:
     }
 
     void njson_serialize(JSON_Value *njson_val) const {
-        SET(c);
-        SET(b);
-        SET(s);
-        SET(i);
-        SET(f);
-        SET(ll);
-        SET(d);
-        SET(pc);
-        SET(m);
-        SET(mid);
-        SET(mcc);
-        SET(l);
-        SET(lm);
-        SET(ir);
-        SET(pir);
-        SET(ppir);
-        SET(mir);
-        SET(mpir);
+        NJSON_SET(c);
+        NJSON_SET(b);
+        NJSON_SET(s);
+        NJSON_SET(i);
+        NJSON_SET(f);
+        NJSON_SET(ll);
+        NJSON_SET(d);
+        NJSON_SET(pc);
+        NJSON_SET(m);
+        NJSON_SET(mid);
+        NJSON_SET(mcc);
+        NJSON_SET(l);
+        NJSON_SET(lm);
+        NJSON_SET(ir);
+        NJSON_SET(pir);
+        NJSON_SET(ppir);
+        NJSON_SET(mir);
+        NJSON_SET(mpir);
     }
 
     void njson_deserialize(JSON_Value *njson_val) {
-        GET(c);
-        GET(b);
-        GET(s);
-        GET(i);
-        GET(f);
-        GET(ll);
-        GET(d);
-        GET(pc);
-        GET(m);
-        GET(mid);
-        GET(mcc);
-        GET(l);
-        GET(lm);
-        GET(ir);
-        GET(pir);
-        GET(ppir);
-        GET(mir);
-        GET(mpir);
+        NJSON_GET(c);
+        NJSON_GET(b);
+        NJSON_GET(s);
+        NJSON_GET(i);
+        NJSON_GET(f);
+        NJSON_GET(ll);
+        NJSON_GET(d);
+        NJSON_GET_AS_TYPE(pc,char *);
+        NJSON_GET(m);
+        NJSON_GET(mid);
+        NJSON_GET(mcc);
+        NJSON_GET(l);
+        NJSON_GET(lm);
+        NJSON_GET(ir);
+        NJSON_GET(pir);
+        NJSON_GET(ppir);
+        NJSON_GET(mir);
+        NJSON_GET(mpir);
     }
 
 private:
@@ -164,7 +164,7 @@ private:
     //map list test
     std::map<std::string, std::string> m;
     std::map<int, double> mid;
-    std::map<const char *, const char *> mcc;
+    std::map<char *, char *> mcc;
     std::list<int> l;
     std::list<std::map<std::string, std::string> > lm;
 

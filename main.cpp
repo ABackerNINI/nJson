@@ -6,7 +6,44 @@
 #include <string.h>
 #include "resource/Res.h"
 
+#define S(M) njson_serialize(njson_val,#M,njson_var.get_##M())
+#define G(M) if(json_object_has_value(json_value_get_object(njson_val),#M)) \
+    njson_deserialize(json_object_get_value(json_value_get_object(njson_val),#M),&(njson_var->get_##M()))
+
+class foo {
+public:
+    void set_a(const int &a) { this->a = a; }
+
+    const int &get_a() const { return a; }
+
+    int &get_a() { return a; }
+
+    int a;
+};
+
+template<>
+struct njson_support<foo> {
+    static bool is_default_value(const foo &f) {
+        return false;
+    }
+
+    static void serialize(JSON_Value *njson_val, const char *njson_name, const foo &njson_var) {
+        S(a);
+    }
+
+    static void deserialize(JSON_Value *njson_val, foo *njson_var) {
+        G(a);
+    }
+};
+
 int main() {
+    foo f;
+    f.set_a(10);
+    char *s11 = njson_serialize(f);
+    printf("%s\n", s11);
+
+    foo f2;
+    njson_deserialize(&f2, s11);
 
     printf("debug begin\n");
     //printf("%s %d %s %s %s\n", __FILE__, __LINE__, __DATE__,__TIME__,__func__);
@@ -43,7 +80,7 @@ int main() {
         }
         res.set_mid(mid);
 
-        std::map<const char *,const char *> mcc;
+        std::map<char *, char *> mcc;
         {
             char *s1 = new char[10];
             char *s2 = new char[10];
@@ -85,14 +122,14 @@ int main() {
         res.get_mir()["2"] = ir2;
     }
 
-    const char *s = serialize(res);
+    const char *s = njson_serialize(res);
 
     printf("%s\n", s);
 
     Res res2;
-    deserialize<Res>(&res2, s);
+    njson_deserialize<Res>(&res2, s);
 
-    const char *s2 = serialize(res2);
+    const char *s2 = njson_serialize(res2);
 
     printf("%s\n", s2);
 
