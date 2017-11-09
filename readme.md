@@ -1,5 +1,5 @@
 ## About
-This is a C++98 serialize-to-json lib based on [parson](https://github.com/kgabis/parson.git).
+This is a C++98 njson_serialize-to-json lib based on [parson](https://github.com/kgabis/parson.git).
 
 ## Features
 * C++98 Compatible
@@ -18,8 +18,8 @@ See more at "[nJson/doc](https://github.com/ABackerNINI/nJson/tree/master/doc)".
 * Include header file "[nJson/nJson/DEF.h](https://github.com/ABackerNINI/nJson/blob/master/nJson/DEF.h)".
 * Implement the following two member functions to support the serialization/deserialization of a structure or a class with intrusive method.
 ```c++
-bool serialize(JSON_Value *_doc_,const char *_key_ = NULL) const;
-void deserialize(JSON_Value *_doc_);
+bool njson_serialize(JSON_Value *_doc_,const char *_key_ = NULL) const;
+void njson_deserialize(JSON_Value *_doc_);
 ```
 * Initial basic types to avoid a random value.
 The following code shows you how to support a self-define sturct.</br>
@@ -42,41 +42,41 @@ public:
 			memset(&b,-1,sizeof(bool));
 		}
 
-	bool serialize(JSON_Value *_doc_,const char *_key_ = NULL) const {
+	bool njson_serialize(JSON_Value *_doc_,const char *_key_ = NULL) const {
 		JSON_Object *_root_obj_ = json_value_get_object(_doc_);
 		{
 			if(_key_==NULL){
-				SET(c);
-				SET(b);
-				SET(s);
-				SET(i);
-				SET(f);
-				SET(ll);
-				SET(d);
-				SET(pc);
-				SET(m);
-				SET(l);
-				SET(lm);
-				SET(ir);
-				SET(pir);
-				SET(ppir);
-				SET(mir);
+				NJSON_SET(c);
+				NJSON_SET(b);
+				NJSON_SET(s);
+				NJSON_SET(i);
+				NJSON_SET(f);
+				NJSON_SET(ll);
+				NJSON_SET(d);
+				NJSON_SET(pc);
+				NJSON_SET(m);
+				NJSON_SET(l);
+				NJSON_SET(lm);
+				NJSON_SET(ir);
+				NJSON_SET(pir);
+				NJSON_SET(ppir);
+				NJSON_SET(mir);
 			} else {
-				SET_IF_KEY(c)
-				SET_IF_KEY(b)
-				SET_IF_KEY(s)
-				SET_IF_KEY(i)
-				SET_IF_KEY(f)
-				SET_IF_KEY(ll)
-				SET_IF_KEY(d)
-				SET_IF_KEY(pc)
-				SET_IF_KEY(m)
-				SET_IF_KEY(l)
-				SET_IF_KEY(lm)
-				SET_IF_KEY(ir)
-				SET_IF_KEY(pir)
-				SET_IF_KEY(ppir)
-				SET_IF_KEY(mir)
+				NJSON_SET_IF_KEY(c)
+				NJSON_SET_IF_KEY(b)
+				NJSON_SET_IF_KEY(s)
+				NJSON_SET_IF_KEY(i)
+				NJSON_SET_IF_KEY(f)
+				NJSON_SET_IF_KEY(ll)
+				NJSON_SET_IF_KEY(d)
+				NJSON_SET_IF_KEY(pc)
+				NJSON_SET_IF_KEY(m)
+				NJSON_SET_IF_KEY(l)
+				NJSON_SET_IF_KEY(lm)
+				NJSON_SET_IF_KEY(ir)
+				NJSON_SET_IF_KEY(pir)
+				NJSON_SET_IF_KEY(ppir)
+				NJSON_SET_IF_KEY(mir)
 				{
 					//TODO:error
 					return false;
@@ -86,24 +86,24 @@ public:
 
 		return true;
 	}
-	void deserialize(JSON_Value *_doc_){
+	void njson_deserialize(JSON_Value *_doc_){
 		JSON_Object *_root_obj_ = json_value_get_object(_doc_);
 		{
-			GET(c);
-			GET(b);
-			GET(s);
-			GET(i);
-			GET(f);
-			GET(ll);
-			GET(d);
-			GET(pc);
-			GET(m);
-			GET(l);
-			GET(lm);
-			GET(ir);
-			GET(pir);
-			GET(ppir);
-			GET(mir);
+			NJSON_GET(c);
+			NJSON_GET(b);
+			NJSON_GET(s);
+			NJSON_GET(i);
+			NJSON_GET(f);
+			NJSON_GET(ll);
+			NJSON_GET(d);
+			NJSON_GET(pc);
+			NJSON_GET(m);
+			NJSON_GET(l);
+			NJSON_GET(lm);
+			NJSON_GET(ir);
+			NJSON_GET(pir);
+			NJSON_GET(ppir);
+			NJSON_GET(mir);
 		}
 	}
 
@@ -141,7 +141,7 @@ private:
 	std::map<std::string,InnerRes*>			mpir;
 };
 ```
-"[nJson/main.cpp](https://github.com/ABackerNINI/nJson/blob/master/main.cpp)" shows you how to serialize it.Output:
+"[nJson/main.cpp](https://github.com/ABackerNINI/nJson/blob/master/main.cpp)" shows you how to njson_serialize it.Output:
 ```json
 {
     "c": "c",
