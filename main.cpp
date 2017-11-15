@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include <iostream>
 #include <map>
 #include <list>
@@ -6,8 +5,8 @@
 #include <string.h>
 #include "resource/Res.h"
 
-#define S(M) njson_serialize(njson_val,#M,njson_var.get_##M())
-#define G(M) if(json_object_has_value(json_value_get_object(njson_val),#M)) \
+#define SET(M) njson_serialize(njson_val,#M,njson_var.get_##M())
+#define GET(M) if(json_object_has_value(json_value_get_object(njson_val),#M)) \
     njson_deserialize(json_object_get_value(json_value_get_object(njson_val),#M),&(njson_var->get_##M()))
 
 class foo {
@@ -28,11 +27,11 @@ struct njson_support<foo> {
     }
 
     static void serialize(JSON_Value *njson_val, const char *njson_name, const foo &njson_var) {
-        S(a);
+        SET(a);
     }
 
     static void deserialize(JSON_Value *njson_val, foo *njson_var) {
-        G(a);
+        GET(a);
     }
 };
 

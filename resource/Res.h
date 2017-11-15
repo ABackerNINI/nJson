@@ -95,7 +95,7 @@ public:
     void set_mpir(const std::map<std::string, InnerRes *> &mpir) { this->mpir = mpir; }
 
     ~Res() {
-//        if (pc)delete[] pc;
+        if (pc)delete[] pc;
         if (pir)delete pir;
         if (ppir && *ppir)delete *ppir;
         if (ppir)delete ppir;
@@ -114,7 +114,7 @@ public:
         NJSON_SET(f);
         NJSON_SET(ll);
         NJSON_SET(d);
-        NJSON_SET(pc);
+        NJSON_SET_AS_TYPE(pc,const char *);
         NJSON_SET(m);
         NJSON_SET(mid);
         NJSON_SET(mcc);
@@ -135,7 +135,7 @@ public:
         NJSON_GET(f);
         NJSON_GET(ll);
         NJSON_GET(d);
-        NJSON_GET_AS_TYPE(pc,char *);
+        NJSON_GET_AS_TYPE(pc,const char *);
         NJSON_GET(m);
         NJSON_GET(mid);
         NJSON_GET(mcc);
