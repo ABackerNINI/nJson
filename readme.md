@@ -1,5 +1,5 @@
 ## About
-This is a C++98 njson_serialize-to-json lib based on [parson](https://github.com/kgabis/parson.git).
+This is a C++98 serialize-to-json lib based on [parson](https://github.com/kgabis/parson.git).
 
 ## Features
 * C++98 Compatible
@@ -22,7 +22,7 @@ bool njson_serialize(JSON_Value *_doc_,const char *_key_ = NULL) const;
 void njson_deserialize(JSON_Value *_doc_);
 ```
 * Initial basic types to avoid a random value.
-The following code shows you how to support a self-define sturct.</br>
+The following code shows you how to support a self-define struct.</br>
 See more at "[nJson/resource](https://github.com/ABackerNINI/nJson/tree/master/resource)".
 ```c++
 struct Res{
@@ -141,7 +141,7 @@ private:
 	std::map<std::string,InnerRes*>			mpir;
 };
 ```
-"[nJson/main.cpp](https://github.com/ABackerNINI/nJson/blob/master/main.cpp)" shows you how to njson_serialize it.Output:
+"[nJson/main.cpp](https://github.com/ABackerNINI/nJson/blob/master/main.cpp)" shows you how to serialize it.Output:
 ```json
 {
     "c": "c",
