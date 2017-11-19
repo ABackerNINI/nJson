@@ -156,7 +156,7 @@ namespace std {
     };
 
     // TEMPLATE CLASS add_pointer
-    template<typename ...>
+    template<typename _Ty>
     struct _void_t {
         typedef void type;
     };
