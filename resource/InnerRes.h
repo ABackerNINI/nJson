@@ -23,7 +23,7 @@ public:
             NJSON_SET(id);
         }
 
-        return njson_val;
+        NJSON_RET;
     }
 
     void njson_deserialize(JSON_Value *njson_val) {
@@ -61,7 +61,7 @@ public:
             NJSON_SET(val);
         }
 
-        return njson_val;
+        NJSON_RET;
     }
 
     void njson_deserialize(JSON_Value *njson_val) {

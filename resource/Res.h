@@ -129,7 +129,7 @@ public:
             NJSON_SET(mpir);
         }
 
-        return njson_val;
+        NJSON_RET;
     }
 
     void njson_deserialize(JSON_Value *njson_val) {
