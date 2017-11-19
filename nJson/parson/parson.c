@@ -58,44 +58,13 @@ static JSON_Free_Function parson_free = free;
 
 #define IS_CONT(b) (((unsigned char)(b) & 0xC0) == 0x80) /* is utf-8 continuation byte */
 
-/* Type definitions */
-typedef union json_value_value {
-    char        *string;
-    double       number;
-    JSON_Object *object;
-    JSON_Array  *array;
-    int          boolean;
-    int          null;
-} JSON_Value_Value;
-
-struct json_value_t {
-    JSON_Value      *parent;
-    JSON_Value_Type  type;
-    JSON_Value_Value value;
-};
-
-struct json_object_t {
-    JSON_Value  *wrapping_value;
-    char       **names;
-    JSON_Value **values;
-    size_t       count;
-    size_t       capacity;
-};
-
-struct json_array_t {
-    JSON_Value  *wrapping_value;
-    JSON_Value **items;
-    size_t       count;
-    size_t       capacity;
-};
-
 /* Various */
 static char * read_file(const char *filename);
 static void   remove_comments(char *string, const char *start_token, const char *end_token);
 static char * parson_strndup(const char *string, size_t n);
 static char * parson_strdup(const char *string);
 static int    hex_char_to_int(char c);
-static int    parse_utf16_hex(const char *string, unsigned int *result);
+static int    parse_utf16_hex(const char *s, unsigned int *result);
 static int    num_bytes_in_utf8_sequence(unsigned char c);
 static int    verify_utf8_sequence(const unsigned char *string, int *len);
 static int    is_valid_utf8(const char *string, size_t string_len);
