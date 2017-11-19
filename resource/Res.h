@@ -102,32 +102,39 @@ public:
         //TODO free mpir
     }
 
-    bool is_default_value() const {
+    bool njson_is_default() const {
         return false;
     }
 
-    void njson_serialize(JSON_Value *njson_val) const {
-        NJSON_SET(c);
-        NJSON_SET(b);
-        NJSON_SET(s);
-        NJSON_SET(i);
-        NJSON_SET(f);
-        NJSON_SET(ll);
-        NJSON_SET(d);
-        NJSON_SET_AS_TYPE(pc,const char *);
-        NJSON_SET(m);
-        NJSON_SET(mid);
-        NJSON_SET(mcc);
-        NJSON_SET(l);
-        NJSON_SET(lm);
-        NJSON_SET(ir);
-        NJSON_SET(pir);
-        NJSON_SET(ppir);
-        NJSON_SET(mir);
-        NJSON_SET(mpir);
+    JSON_Value *njson_serialize() const {
+        NJSON_SERIALIZE_INIT;
+        {
+            NJSON_SET(c);
+            NJSON_SET(b);
+            NJSON_SET(s);
+            NJSON_SET(i);
+            NJSON_SET(f);
+            NJSON_SET(ll);
+            NJSON_SET(d);
+            NJSON_SET(pc);
+            NJSON_SET(m);
+            NJSON_SET(mid);
+            NJSON_SET(mcc);
+            NJSON_SET(l);
+            NJSON_SET(lm);
+            NJSON_SET(ir);
+            NJSON_SET(pir);
+            NJSON_SET(ppir);
+            NJSON_SET(mir);
+            NJSON_SET(mpir);
+        }
+
+        return njson_val;
     }
 
     void njson_deserialize(JSON_Value *njson_val) {
+        NJSON_DESERIALIZE_INIT;
+
         NJSON_GET(c);
         NJSON_GET(b);
         NJSON_GET(s);
@@ -135,7 +142,7 @@ public:
         NJSON_GET(f);
         NJSON_GET(ll);
         NJSON_GET(d);
-        NJSON_GET_AS_TYPE(pc,const char *);
+        NJSON_GET(pc);
         NJSON_GET(m);
         NJSON_GET(mid);
         NJSON_GET(mcc);

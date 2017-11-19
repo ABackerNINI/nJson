@@ -5,11 +5,18 @@
 #include <string.h>
 #include "resource/Res.h"
 
-#define SET(M) njson_serialize(njson_val,#M,njson_var.get_##M())
-#define GET(M) if(json_object_has_value(json_value_get_object(njson_val),#M)) \
-    njson_deserialize(json_object_get_value(json_value_get_object(njson_val),#M),&(njson_var->get_##M()))
+class base {
+public:
+    void set_b(const int &b) { this->b = b; }
 
-class foo {
+    const int &get_b() const { return b; }
+
+    int &get_b() { return b; }
+
+    int b;
+};
+
+class foo : public base {
 public:
     void set_a(const int &a) { this->a = a; }
 
@@ -21,23 +28,60 @@ public:
 };
 
 template<>
+struct njson_support<base> {
+    static bool is_default_value(const base &f) {
+        return false;
+    }
+
+    static JSON_Value *serialize(const base &njson_var) {
+        NJSON_SERIALIZE_INIT;
+        {
+            NJSON_NSET(b);
+        }
+
+        return njson_val;
+    }
+
+    static void deserialize(JSON_Value *njson_val, base *njson_var) {
+        NJSON_DESERIALIZE_INIT;
+        {
+            NJSON_NGET(b);
+        }
+    }
+};
+
+
+template<>
 struct njson_support<foo> {
     static bool is_default_value(const foo &f) {
         return false;
     }
 
-    static void serialize(JSON_Value *njson_val, const char *njson_name, const foo &njson_var) {
-        SET(a);
+    static JSON_Value *serialize(const foo &njson_var) {
+        NJSON_SERIALIZE_INIT;
+        {
+            NJSON_NSERIALIZE_SUPER_CLASS(base);
+
+            NJSON_NSET(a);
+        }
+
+        return njson_val;
     }
 
     static void deserialize(JSON_Value *njson_val, foo *njson_var) {
-        GET(a);
+        NJSON_DESERIALIZE_INIT;
+        {
+            NJSON_NDESERIALIZE_SUPER_CLASS(base);
+
+            NJSON_NGET(a);
+        }
     }
 };
 
 int main() {
     foo f;
     f.set_a(10);
+    f.set_b(10);
     char *s11 = njson_serialize(f);
     printf("%s\n", s11);
 

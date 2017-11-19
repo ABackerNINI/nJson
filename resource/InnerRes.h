@@ -13,16 +13,24 @@ public:
             id(NJSON_DEFAULT_VALUE_INT) {
     }
 
-    bool is_default_value() const {
+    bool njson_is_default() const {
         return false;
     }
 
-    void njson_serialize(JSON_Value *njson_val) const {
-        NJSON_SET(id);
+    JSON_Value *njson_serialize() const {
+        NJSON_SERIALIZE_INIT;
+        {
+            NJSON_SET(id);
+        }
+
+        return njson_val;
     }
 
     void njson_deserialize(JSON_Value *njson_val) {
-        NJSON_GET(id);
+        NJSON_DESERIALIZE_INIT;
+        {
+            NJSON_GET(id);
+        }
     }
 
     int &get_id() { return id; }
@@ -39,24 +47,32 @@ public:
             type(NJSON_DEFAULT_VALUE_INT) {
     }
 
-    bool is_default_value() const {
+    bool njson_is_default() const {
         return false;
     }
 
-    void njson_serialize(JSON_Value *njson_val) const {
-        NJSON_SERIALIZE_SUPER_CLASS(Super);
+    JSON_Value *njson_serialize() const {
+        NJSON_SERIALIZE_INIT;
+        {
+            NJSON_SERIALIZE_SUPER_CLASS(Super);
 
-        NJSON_SET(type);
-        NJSON_SET(key);
-        NJSON_SET(val);
+            NJSON_SET(type);
+            NJSON_SET(key);
+            NJSON_SET(val);
+        }
+
+        return njson_val;
     }
 
     void njson_deserialize(JSON_Value *njson_val) {
-        NJSON_DESERIALIZE_SUPER_CLASS(Super);
+        NJSON_DESERIALIZE_INIT;
+        {
+            NJSON_DESERIALIZE_SUPER_CLASS(Super);
 
-        NJSON_GET(type);
-        NJSON_GET(key);
-        NJSON_GET(val);
+            NJSON_GET(type);
+            NJSON_GET(key);
+            NJSON_GET(val);
+        }
     }
 
     int &get_type() { return type; }
