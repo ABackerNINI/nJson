@@ -12,17 +12,17 @@
 
 template<>
 struct njson_support<std::string> {
-    static bool is_default_value(const std::string &njson_var) {
+    static bool is_default(const std::string &njson_var) {
         return njson_var.empty();
     }
 
-    static void serialize(JSON_Value *njson_val, const char *njson_name, const std::string &njson_var) {
-        njson_serialize(njson_val, njson_name, njson_var.c_str());
+    static JSON_Value *serialize(const std::string &njson_var) {
+        return njson_support_serialize(njson_var.c_str());
     }
 
     static void deserialize(JSON_Value *njson_val, std::string *njson_var) {
         const char *s;
-        njson_deserialize(njson_val, &s);
+        njson_support_deserialize(njson_val, &s);
         if (s)*njson_var = std::string(s);
     }
 };

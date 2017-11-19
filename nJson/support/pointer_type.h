@@ -16,17 +16,17 @@
 
 template<typename T>
 struct njson_support<T *> {
-    static bool is_default_value(const T *njson_var) {
-        return njson_var == NJSON_DEFAULT_VALUE_POINTER || njson_is_default_value(*njson_var);
+    static bool is_default(const T *njson_var) {
+        return njson_var == NJSON_DEFAULT_VALUE_POINTER || njson_support_is_default(*njson_var);
     }
 
-    static void serialize(JSON_Value *njson_val, const char *njson_name, const T *njson_var) {
-        njson_serialize(njson_val, njson_name, *njson_var);
+    static JSON_Value *serialize(const T *njson_var) {
+        return njson_support_serialize(*njson_var);
     }
 
     static void deserialize(JSON_Value *njson_val, T **njson_var) {
         if (*njson_var == NULL)*njson_var = new T();
-        njson_deserialize(njson_val, *njson_var);
+        njson_support_deserialize(njson_val, *njson_var);
     }
 };
 

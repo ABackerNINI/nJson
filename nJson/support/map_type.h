@@ -241,19 +241,20 @@ struct njson_map_support<const char *> {
 /*support std::map<T1, T2>*/
 template<typename T1, typename T2>
 struct njson_support<std::map<T1, T2> > {
-    static bool is_default_value(const std::map<T1, T2> &njson_var) {
+    static bool is_default(const std::map<T1, T2> &njson_var) {
         return njson_var.empty();
     }
 
-    static void serialize(JSON_Value *njson_val, const char *njson_name, const std::map<T1, T2> &njson_var) {
+    static JSON_Value *serialize(const std::map<T1, T2> &njson_var) {
         JSON_Value *doc = json_value_init_object();
+        JSON_Object *obj = json_value_get_object(doc);
 
         typename std::map<T1, T2>::const_iterator it;
         for (it = njson_var.begin(); it != njson_var.end(); ++it) {
-            njson_serialize(doc, njson_to_string(it->first).c_str(), it->second);
+            json_object_set_value(obj, njson_to_string(it->first).c_str(), njson_support_serialize(it->second));
         }
 
-        njson_value_set_value(njson_val, njson_name, doc);
+        return doc;
     }
 
     static void deserialize(JSON_Value *njson_val, std::map<T1, T2> *njson_var) {
@@ -265,7 +266,7 @@ struct njson_support<std::map<T1, T2> > {
         for (size_t i = 0; i < n; ++i) {
             name = json_object_get_name(obj, i);
             njson_string_to(name, &key);
-            njson_deserialize(json_object_get_value_at(obj, i), &val);
+            njson_support_deserialize(json_object_get_value_at(obj, i), &val);
             (*njson_var)[key] = val;
         }
     }
