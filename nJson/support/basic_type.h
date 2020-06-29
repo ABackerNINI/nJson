@@ -22,7 +22,11 @@
 
 template <>
 struct njson_support<bool> {
-    static bool is_default(const bool &njson_var) { return false; }
+    static bool is_default(const bool &njson_var) {
+        (void)njson_var;
+
+        return false;
+    }
 
     static JSON_Value *serialize(const bool &njson_var) {
         return json_value_init_boolean(njson_var);
@@ -35,7 +39,11 @@ struct njson_support<bool> {
 
 template <>
 struct njson_support<char> {
-    static bool is_default(const char &njson_var) { return false; }
+    static bool is_default(const char &njson_var) {
+        (void)njson_var;
+
+        return false;
+    }
 
     static JSON_Value *serialize(const char &njson_var) {
         char tmp[2];
@@ -55,7 +63,11 @@ struct njson_support<char> {
 
 template <>
 struct njson_support<unsigned char> {
-    static bool is_default(const unsigned char &njson_var) { return false; }
+    static bool is_default(const unsigned char &njson_var) {
+        (void)njson_var;
+
+        return false;
+    }
 
     static JSON_Value *serialize(const unsigned char &njson_var) {
         char tmp[2];
@@ -75,7 +87,11 @@ struct njson_support<unsigned char> {
 
 template <>
 struct njson_support<signed char> {
-    static bool is_default(const signed char &njson_var) { return false; }
+    static bool is_default(const signed char &njson_var) {
+        (void)njson_var;
+
+        return false;
+    }
 
     static JSON_Value *serialize(const signed char &njson_var) {
         char tmp[2];
@@ -97,7 +113,11 @@ struct njson_support<signed char> {
 
 template <>
 struct njson_support<wchar_t> {
-    static bool is_default(const wchar_t &njson_var) { return false; }
+    static bool is_default(const wchar_t &njson_var) {
+        (void)njson_var;
+
+        return false;
+    }
 
     static JSON_Value *serialize(const wchar_t &njson_var) {
         char tmp[10];
@@ -129,7 +149,11 @@ struct njson_support<wchar_t> {
 
 template <>
 struct njson_support<unsigned short> {
-    static bool is_default(const unsigned short &njson_var) { return false; }
+    static bool is_default(const unsigned short &njson_var) {
+        (void)njson_var;
+
+        return false;
+    }
 
     static JSON_Value *serialize(const unsigned short &njson_var) {
         return json_value_init_number(njson_var);
@@ -142,7 +166,11 @@ struct njson_support<unsigned short> {
 
 template <>
 struct njson_support<signed short> {
-    static bool is_default(const short &njson_var) { return false; }
+    static bool is_default(const short &njson_var) {
+        (void)njson_var;
+
+        return false;
+    }
 
     static JSON_Value *serialize(const signed short &njson_var) {
         return json_value_init_number(njson_var);
@@ -155,7 +183,11 @@ struct njson_support<signed short> {
 
 template <>
 struct njson_support<unsigned int> {
-    static bool is_default(const unsigned int &njson_var) { return false; }
+    static bool is_default(const unsigned int &njson_var) {
+        (void)njson_var;
+
+        return false;
+    }
 
     static JSON_Value *serialize(const unsigned int &njson_var) {
         return json_value_init_number(njson_var);
@@ -168,7 +200,11 @@ struct njson_support<unsigned int> {
 
 template <>
 struct njson_support<signed int> {
-    static bool is_default(const signed int &njson_var) { return false; }
+    static bool is_default(const signed int &njson_var) {
+        (void)njson_var;
+
+        return false;
+    }
 
     static JSON_Value *serialize(const signed int &njson_var) {
         return json_value_init_number(njson_var);
@@ -181,7 +217,11 @@ struct njson_support<signed int> {
 
 template <>
 struct njson_support<unsigned long> {
-    static bool is_default(const unsigned long &njson_var) { return false; }
+    static bool is_default(const unsigned long &njson_var) {
+        (void)njson_var;
+
+        return false;
+    }
 
     static JSON_Value *serialize(const unsigned long &njson_var) {
         return json_value_init_number(njson_var);
@@ -194,7 +234,11 @@ struct njson_support<unsigned long> {
 
 template <>
 struct njson_support<signed long> {
-    static bool is_default(const signed long &njson_var) { return false; }
+    static bool is_default(const signed long &njson_var) {
+        (void)njson_var;
+
+        return false;
+    }
 
     static JSON_Value *serialize(const signed long &njson_var) {
         return json_value_init_number(njson_var);
@@ -208,6 +252,8 @@ struct njson_support<signed long> {
 template <>
 struct njson_support<unsigned long long> {
     static bool is_default(const unsigned long long &njson_var) {
+        (void)njson_var;
+
         return false;
     }
 
@@ -223,7 +269,11 @@ struct njson_support<unsigned long long> {
 
 template <>
 struct njson_support<signed long long> {
-    static bool is_default(const signed long long &njson_var) { return false; }
+    static bool is_default(const signed long long &njson_var) {
+        (void)njson_var;
+
+        return false;
+    }
 
     static JSON_Value *serialize(const signed long long &njson_var) {
         return json_value_init_number(njson_var);
@@ -237,7 +287,11 @@ struct njson_support<signed long long> {
 
 template <>
 struct njson_support<float> {
-    static bool is_default(const float &njson_var) { return false; }
+    static bool is_default(const float &njson_var) {
+        (void)njson_var;
+
+        return false;
+    }
 
     static JSON_Value *serialize(const float &njson_var) {
         return json_value_init_number(njson_var);
@@ -250,7 +304,11 @@ struct njson_support<float> {
 
 template <>
 struct njson_support<double> {
-    static bool is_default(const double &njson_var) { return false; }
+    static bool is_default(const double &njson_var) {
+        (void)njson_var;
+
+        return false;
+    }
 
     static JSON_Value *serialize(const double &njson_var) {
         return json_value_init_number(njson_var);
@@ -263,7 +321,11 @@ struct njson_support<double> {
 
 template <>
 struct njson_support<long double> {
-    static bool is_default(const long double &njson_var) { return false; }
+    static bool is_default(const long double &njson_var) {
+        (void)njson_var;
+
+        return false;
+    }
 
     static JSON_Value *serialize(const long double &njson_var) {
         return json_value_init_number((double)njson_var);

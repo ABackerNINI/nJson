@@ -2,6 +2,7 @@
 #include <map>
 #include <list>
 #include <string>
+#include <cassert>
 #include <string.h>
 #include "resource/Res.h"
 
@@ -29,7 +30,11 @@ class foo : public base {
 
 template <>
 struct njson_support<base> {
-    static bool is_default_value(const base &f) { return false; }
+    static bool is_default_value(const base &f) {
+        (void)f;
+
+        return false;
+    }
 
     static JSON_Value *serialize(const base &njson_var) {
         NJSON_SERIALIZE_INIT;
@@ -46,7 +51,11 @@ struct njson_support<base> {
 
 template <>
 struct njson_support<foo> {
-    static bool is_default_value(const foo &f) { return false; }
+    static bool is_default_value(const foo &f) {
+        (void)f;
+
+        return false;
+    }
 
     static JSON_Value *serialize(const foo &njson_var) {
         NJSON_SERIALIZE_INIT;
@@ -166,7 +175,9 @@ int main() {
 
     const char *s2 = njson_serialize(res2);
 
-    printf("%s\n", s2);
+    // printf("%s\n", s2);
+
+    assert(strcmp(s, s2) == 0);
 
     free((void *)s);
     free((void *)s2);
