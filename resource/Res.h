@@ -9,22 +9,18 @@
 #include "../nJson/DEF.h"
 
 struct Res {
-public:
-    Res() :
-            c(NJSON_DEFAULT_VALUE_CHAR),
-            // b(NJSON_DEFAULT_VALUE_BOOL),
-            s(NJSON_DEFAULT_VALUE_SHORT),
-            i(NJSON_DEFAULT_VALUE_INT),
-            f(NJSON_DEFAULT_VALUE_FLOAT),
-            ll(NJSON_DEFAULT_VALUE_LONG_LONG),
-            d(NJSON_DEFAULT_VALUE_DOUBLE),
-            pc(NJSON_DEFAULT_VALUE_CSTR),
-            pir(NJSON_DEFAULT_VALUE_POINTER),
-            ppir(NJSON_DEFAULT_VALUE_POINTER) {
-        /*init bool*/
-        memset(&b, -1, sizeof(bool));
-    }
-
+   public:
+    Res()
+        : c(0),
+          b(false),
+          s(0),
+          i(0),
+          f(0),
+          ll(0),
+          d(0),
+          pc(NULL),
+          pir(NULL),
+          ppir(NULL) {}
 
     char &get_c() { return c; }
 
@@ -82,7 +78,9 @@ public:
 
     void set_l(const std::list<int> &l) { this->l = l; }
 
-    void set_lm(const std::list<std::map<std::string, std::string> > &lm) { this->lm = lm; }
+    void set_lm(const std::list<std::map<std::string, std::string> > &lm) {
+        this->lm = lm;
+    }
 
     void set_ir(const InnerRes &ir) { this->ir = ir; }
 
@@ -90,21 +88,23 @@ public:
 
     void set_ppir(InnerRes **ppir) { this->ppir = ppir; }
 
-    void set_mir(const std::map<std::string, InnerRes> &mir) { this->mir = mir; }
+    void set_mir(const std::map<std::string, InnerRes> &mir) {
+        this->mir = mir;
+    }
 
-    void set_mpir(const std::map<std::string, InnerRes *> &mpir) { this->mpir = mpir; }
+    void set_mpir(const std::map<std::string, InnerRes *> &mpir) {
+        this->mpir = mpir;
+    }
 
     ~Res() {
-        if (pc)delete[] pc;
-        if (pir)delete pir;
-        if (ppir && *ppir)delete *ppir;
-        if (ppir)delete ppir;
-        //TODO free mpir
+        if (pc) delete[] pc;
+        if (pir) delete pir;
+        if (ppir && *ppir) delete *ppir;
+        if (ppir) delete ppir;
+        // TODO free mpir
     }
 
-    bool njson_is_default() const {
-        return false;
-    }
+    bool njson_is_default() const { return false; }
 
     JSON_Value *njson_serialize() const {
         NJSON_SERIALIZE_INIT;
@@ -155,8 +155,8 @@ public:
         NJSON_GET(mpir);
     }
 
-private:
-    //basic types test
+   private:
+    // basic types test
     char c;
     bool b;
     short s;
@@ -165,17 +165,17 @@ private:
     long long ll;
     double d;
 
-    //const char * test
+    // const char * test
     const char *pc;
 
-    //map list test
+    // map list test
     std::map<std::string, std::string> m;
     std::map<int, double> mid;
     std::map<char *, char *> mcc;
     std::list<int> l;
     std::list<std::map<std::string, std::string> > lm;
 
-    //inner object test
+    // inner object test
     InnerRes ir;
     InnerRes *pir;
     InnerRes **ppir;
@@ -183,4 +183,4 @@ private:
     std::map<std::string, InnerRes *> mpir;
 };
 
-#endif//_RESOURCE_RES_H_
+#endif  //_RESOURCE_RES_H_

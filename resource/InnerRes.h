@@ -10,7 +10,7 @@
 struct Super {
 public:
     Super() :
-            id(NJSON_DEFAULT_VALUE_INT) {
+            id(0) {
     }
 
     bool njson_is_default() const {
@@ -44,7 +44,7 @@ private:
 struct InnerRes : public Super {
 public:
     InnerRes() :
-            type(NJSON_DEFAULT_VALUE_INT) {
+            type(0) {
     }
 
     bool njson_is_default() const {
