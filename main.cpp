@@ -6,7 +6,7 @@
 #include "resource/Res.h"
 
 class base {
-public:
+   public:
     void set_b(const int &b) { this->b = b; }
 
     const int &get_b() const { return b; }
@@ -17,7 +17,7 @@ public:
 };
 
 class foo : public base {
-public:
+   public:
     void set_a(const int &a) { this->a = a; }
 
     const int &get_a() const { return a; }
@@ -27,35 +27,26 @@ public:
     int a;
 };
 
-template<>
+template <>
 struct njson_support<base> {
-    static bool is_default_value(const base &f) {
-        return false;
-    }
+    static bool is_default_value(const base &f) { return false; }
 
     static JSON_Value *serialize(const base &njson_var) {
         NJSON_SERIALIZE_INIT;
-        {
-            NJSON_NSET(b);
-        }
+        { NJSON_NSET(b); }
 
         return njson_val;
     }
 
     static void deserialize(JSON_Value *njson_val, base *njson_var) {
         NJSON_DESERIALIZE_INIT;
-        {
-            NJSON_NGET(b);
-        }
+        { NJSON_NGET(b); }
     }
 };
 
-
-template<>
+template <>
 struct njson_support<foo> {
-    static bool is_default_value(const foo &f) {
-        return false;
-    }
+    static bool is_default_value(const foo &f) { return false; }
 
     static JSON_Value *serialize(const foo &njson_var) {
         NJSON_SERIALIZE_INIT;
@@ -89,7 +80,8 @@ int main() {
     njson_deserialize(&f2, s11);
 
     printf("debug begin\n");
-    //printf("%s %d %s %s %s\n", __FILE__, __LINE__, __DATE__,__TIME__,__func__);
+    // printf("%s %d %s %s %s\n", __FILE__, __LINE__,
+    // __DATE__,__TIME__,__func__);
     Res res;
     {
         res.set_c('c');
@@ -97,7 +89,7 @@ int main() {
         res.set_s(159);
         res.set_i(10001);
         res.set_pc("1234567890");
-        res.set_f((float) 1000000.2);
+        res.set_f((float)1000000.2);
         res.set_ll(1234567890);
         res.set_d(1234567890.123456);
         res.get_l().push_back(1);
@@ -176,8 +168,8 @@ int main() {
 
     printf("%s\n", s2);
 
-    free((void *) s);
-    free((void *) s2);
+    free((void *)s);
+    free((void *)s2);
 
     printf("debug end\n");
 

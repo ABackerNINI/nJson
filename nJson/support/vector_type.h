@@ -7,10 +7,11 @@
 #include "support_base.h"
 
 /*
-	This file is to support the serialization and deserialization of type 'std::vector<T>'.
+    This file is to support the serialization and deserialization of type
+    'std::vector<T>'.
 */
 
-template<typename T>
+template <typename T>
 struct njson_support<std::vector<T> > {
     static bool is_default(const std::vector<T> &njson_var) {
         return njson_var.empty();
@@ -39,4 +40,4 @@ struct njson_support<std::vector<T> > {
     }
 };
 
-#endif//_NJSON_SUPPORT_VECTOR_TYPE_H_
+#endif  //_NJSON_SUPPORT_VECTOR_TYPE_H_

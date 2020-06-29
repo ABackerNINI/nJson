@@ -6,50 +6,37 @@
 #include <string.h>
 
 #include "../nJson/DEF.h"
-
 struct Super {
-public:
-    Super() :
-            id(0) {
-    }
+   public:
+    Super() : id(0) {}
 
-    bool njson_is_default() const {
-        return false;
-    }
+    bool njson_is_default() const { return false; }
 
     JSON_Value *njson_serialize() const {
         NJSON_SERIALIZE_INIT;
-        {
-            NJSON_SET(id);
-        }
+        { NJSON_SET(id); }
 
         NJSON_RET;
     }
 
     void njson_deserialize(JSON_Value *njson_val) {
         NJSON_DESERIALIZE_INIT;
-        {
-            NJSON_GET(id);
-        }
+        { NJSON_GET(id); }
     }
 
     int &get_id() { return id; }
 
     void set_id(int id) { this->id = id; }
 
-private:
+   private:
     int id;
 };
 
 struct InnerRes : public Super {
-public:
-    InnerRes() :
-            type(0) {
-    }
+   public:
+    InnerRes() : type(0) {}
 
-    bool njson_is_default() const {
-        return false;
-    }
+    bool njson_is_default() const { return false; }
 
     JSON_Value *njson_serialize() const {
         NJSON_SERIALIZE_INIT;
@@ -87,13 +74,12 @@ public:
 
     void set_val(const std::string &val) { this->val = val; }
 
-    ~InnerRes() {
-    }
+    ~InnerRes() {}
 
-private:
+   private:
     int type;
     std::string key;
     std::string val;
 };
 
-#endif//_RESOURCE_INNER_RES_H_
+#endif  //_RESOURCE_INNER_RES_H_

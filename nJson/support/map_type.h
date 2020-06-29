@@ -14,17 +14,17 @@
 #include "../type_traits/type_traits.h"
 
 /*
-	This file is to support the serialization and deserialization of type 'std::map<T1,T2>'.
-	Need to implement:
-        template<>struct njson_map_support<T>::static std::string to_string(const bool &val);
-        template<>struct njson_map_support<T>::static void string_to(const char *s, bool *val);
+    This file is to support the serialization and deserialization of type
+    'std::map<T1,T2>'. Need to implement:
+    struct njson_map_support<T>::static std::string to_string(const bool &val);
+    struct njson_map_support<T>::static void string_to(const char *s, bool
+    *val);
 */
 
-template<typename T>
-struct njson_map_support {
-};
+template <typename T>
+struct njson_map_support {};
 
-template<>
+template <>
 struct njson_map_support<bool> {
     static std::string to_string(const bool &val) {
         return val ? std::string("true") : std::string("false");
@@ -35,7 +35,7 @@ struct njson_map_support<bool> {
     }
 };
 
-template<>
+template <>
 struct njson_map_support<char> {
     static std::string to_string(const char &val) {
         char tmp[2];
@@ -45,44 +45,42 @@ struct njson_map_support<char> {
         return std::string(tmp);
     }
 
-    static void string_to(const char *s, char *val) {
-        *val = s[0];
-    }
+    static void string_to(const char *s, char *val) { *val = s[0]; }
 };
 
-template<>
+template <>
 struct njson_map_support<unsigned char> {
     static std::string to_string(const unsigned char &val) {
         char tmp[2];
-        tmp[0] = (char) val;
+        tmp[0] = (char)val;
         tmp[1] = '\0';
 
         return std::string(tmp);
     }
 
     static void string_to(const char *s, unsigned char *val) {
-        *val = (unsigned char) s[0];
+        *val = (unsigned char)s[0];
     }
 };
 
-template<>
+template <>
 struct njson_map_support<signed char> {
     static std::string to_string(const signed char &val) {
         char tmp[2];
-        tmp[0] = (char) val;
+        tmp[0] = (char)val;
         tmp[1] = '\0';
 
         return std::string(tmp);
     }
 
     static void string_to(const char *s, signed char *val) {
-        *val = (signed char) s[0];
+        *val = (signed char)s[0];
     }
 };
 
-#if(_NATIVE_WCHAR_T_DEFINED /*Windows*/ || _GLIBCXX_USE_WCHAR_T /*Unix*/)
+#if (_NATIVE_WCHAR_T_DEFINED /*Windows*/ || _GLIBCXX_USE_WCHAR_T /*Unix*/)
 
-template<>
+template <>
 struct njson_map_support<wchar_t> {
     static std::string to_string(const wchar_t &val) {
         char tmp[10];
@@ -108,129 +106,119 @@ struct njson_map_support<wchar_t> {
 
 #endif
 
-template<typename T>
+template <typename T>
 struct njson_map_support_integral_unsigned_base {
     static std::string to_string(const T &val) {
         char tmp[30];
-        sprintf(tmp, "%llu", (unsigned long long) val);
+        sprintf(tmp, "%llu", (unsigned long long)val);
 
         return std::string(tmp);
     }
 
     static void string_to(const char *s, T *val) {
-        *val = (T) strtoull(s, NULL, 10);
+        *val = (T)strtoull(s, NULL, 10);
     }
 };
 
-template<typename T>
+template <typename T>
 struct njson_map_support_integral_signed_base {
     static std::string to_string(const T &val) {
         char tmp[30];
-        sprintf(tmp, "%lld", (signed long long) val);
+        sprintf(tmp, "%lld", (signed long long)val);
 
         return std::string(tmp);
     }
 
     static void string_to(const char *s, T *val) {
-        *val = (T) strtoll(s, NULL, 10);
+        *val = (T)strtoll(s, NULL, 10);
     }
 };
 
-template<>
-struct njson_map_support<unsigned short> : njson_map_support_integral_unsigned_base<unsigned short> {
-};
+template <>
+struct njson_map_support<unsigned short>
+    : njson_map_support_integral_unsigned_base<unsigned short> {};
 
-template<>
-struct njson_map_support<signed short> : njson_map_support_integral_signed_base<signed short> {
-};
+template <>
+struct njson_map_support<signed short>
+    : njson_map_support_integral_signed_base<signed short> {};
 
-template<>
-struct njson_map_support<unsigned int> : njson_map_support_integral_unsigned_base<signed short> {
-};
+template <>
+struct njson_map_support<unsigned int>
+    : njson_map_support_integral_unsigned_base<signed short> {};
 
-template<>
-struct njson_map_support<signed int> : njson_map_support_integral_signed_base<signed int> {
-};
+template <>
+struct njson_map_support<signed int>
+    : njson_map_support_integral_signed_base<signed int> {};
 
-template<>
-struct njson_map_support<unsigned long> : njson_map_support_integral_unsigned_base<unsigned long> {
-};
+template <>
+struct njson_map_support<unsigned long>
+    : njson_map_support_integral_unsigned_base<unsigned long> {};
 
-template<>
-struct njson_map_support<signed long> : njson_map_support_integral_signed_base<signed long> {
-};
+template <>
+struct njson_map_support<signed long>
+    : njson_map_support_integral_signed_base<signed long> {};
 
-template<>
-struct njson_map_support<unsigned long long> : njson_map_support_integral_unsigned_base<unsigned long long> {
-};
+template <>
+struct njson_map_support<unsigned long long>
+    : njson_map_support_integral_unsigned_base<unsigned long long> {};
 
-template<>
-struct njson_map_support<signed long long> : njson_map_support_integral_signed_base<signed long long> {
-};
+template <>
+struct njson_map_support<signed long long>
+    : njson_map_support_integral_signed_base<signed long long> {};
 
-template<typename T>
+template <typename T>
 struct njson_map_support_floating_point_base {
     static std::string to_string(const T &val) {
         char tmp[30];
-        sprintf(tmp, "%lf", (double) val);
+        sprintf(tmp, "%lf", (double)val);
 
         return std::string(tmp);
     }
 
-    static void string_to(const char *s, T *val) {
-        *val = (T) strtod(s, NULL);
-    }
+    static void string_to(const char *s, T *val) { *val = (T)strtod(s, NULL); }
 };
 
-template<>
+template <>
 struct njson_map_support<float> : njson_map_support_floating_point_base<float> {
 };
 
-template<>
-struct njson_map_support<double> : njson_map_support_floating_point_base<double> {
-};
+template <>
+struct njson_map_support<double>
+    : njson_map_support_floating_point_base<double> {};
 
-template<>
-struct njson_map_support<long double> : njson_map_support_floating_point_base<long double> {
-};
+template <>
+struct njson_map_support<long double>
+    : njson_map_support_floating_point_base<long double> {};
 
-template<typename T>
+template <typename T>
 std::string njson_to_string(const T &val) {
     return njson_map_support<typename std::remove_cv<T>::type>::to_string(val);
 }
 
-template<typename T>
+template <typename T>
 void njson_string_to(const char *s, T *val) {
     njson_map_support<typename std::remove_cv<T>::type>::string_to(s, val);
 }
 
-template<>
+template <>
 struct njson_map_support<std::string> {
-    static std::string to_string(const std::string &val) {
-        return val;
-    }
+    static std::string to_string(const std::string &val) { return val; }
 
     static void string_to(const char *s, std::string *val) {
         *val = std::string(s);
     }
 };
 
-template<>
+template <>
 struct njson_map_support<char *> {
-    static std::string to_string(const char *val) {
-        return std::string(val);
-    }
+    static std::string to_string(const char *val) { return std::string(val); }
 
-    static void string_to(const char *s, char **val) {
-        *val = strdup(s);
-    }
+    static void string_to(const char *s, char **val) { *val = strdup(s); }
 };
 
-template<>
+template <>
 struct njson_map_support<const char *> {
-    static std::string to_string(const char *val) {
-        return std::string(val);
-    }
+    static std::string to_string(const char *val) { return std::string(val); }
 
     static void string_to(const char *s, const char **val) {
         ////TODO:test
@@ -239,7 +227,7 @@ struct njson_map_support<const char *> {
 };
 
 /*support std::map<T1, T2>*/
-template<typename T1, typename T2>
+template <typename T1, typename T2>
 struct njson_support<std::map<T1, T2> > {
     static bool is_default(const std::map<T1, T2> &njson_var) {
         return njson_var.empty();
@@ -251,13 +239,15 @@ struct njson_support<std::map<T1, T2> > {
 
         typename std::map<T1, T2>::const_iterator it;
         for (it = njson_var.begin(); it != njson_var.end(); ++it) {
-            json_object_set_value(obj, njson_to_string(it->first).c_str(), njson_support_serialize(it->second));
+            json_object_set_value(obj, njson_to_string(it->first).c_str(),
+                                  njson_support_serialize(it->second));
         }
 
         return doc;
     }
 
-    static void deserialize(JSON_Value *njson_val, std::map<T1, T2> *njson_var) {
+    static void deserialize(JSON_Value *njson_val,
+                            std::map<T1, T2> *njson_var) {
         JSON_Object *obj = json_value_get_object(njson_val);
         size_t n = json_object_get_count(obj);
         const char *name;
@@ -272,4 +262,4 @@ struct njson_support<std::map<T1, T2> > {
     }
 };
 
-#endif//_NJSON_SUPPORT_MAP_TYPE_H_
+#endif  //_NJSON_SUPPORT_MAP_TYPE_H_

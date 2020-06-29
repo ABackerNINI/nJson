@@ -7,10 +7,11 @@
 #include "support_base.h"
 
 /*
-	This file is to support the serialization and deserialization of type 'std::list<T>'.
+    This file is to support the serialization and deserialization of type
+   'std::list<T>'.
 */
 
-template<typename T>
+template <typename T>
 struct njson_support<std::list<T> > {
     static bool is_default(const std::list<T> &njson_var) {
         return njson_var.empty();
@@ -39,4 +40,4 @@ struct njson_support<std::list<T> > {
     }
 };
 
-#endif//_NJSON_SUPPORT_LIST_TYPE_H_
+#endif  //_NJSON_SUPPORT_LIST_TYPE_H_
