@@ -27,6 +27,7 @@
 * Implement the following two member functions to support the serialization/deserialization of a structure or a class with intrusive method.
 
 ```c++
+bool njson_is_default() const; // optional
 bool njson_serialize(JSON_Value *_doc_,const char *_key_ = NULL) const;
 void njson_deserialize(JSON_Value *_doc_);
 ```
@@ -35,120 +36,98 @@ void njson_deserialize(JSON_Value *_doc_);
 * The following code shows you how to support a self-define struct.
 
 ```c++
-struct Res{
-public:
-    Res():
-        c(DEFAULT_VALUE_CHAR),
-        // b(DEFAULT_VALUE_BOOL),
-        s(DEFAULT_VALUE_SHORT),
-        i(DEFAULT_VALUE_INT),
-        f(DEFAULT_VALUE_FLOAT),
-        ll(DEFAULT_VALUE_LONG_LONG),
-        d(DEFAULT_VALUE_DOUBLE),
-        pc(DEFAULT_VALUE_CSTR),
-        pir(DEFAULT_VALUE_POINTER),
-        ppir(DEFAULT_VALUE_POINTER){
-            /*init bool*/
-            memset(&b,-1,sizeof(bool));
-        }
 
-    bool njson_serialize(JSON_Value *_doc_,const char *_key_ = NULL) const {
-        JSON_Object *_root_obj_ = json_value_get_object(_doc_);
+struct Res {
+   public:
+    Res()
+        : c(0),
+          b(false),
+          s(0),
+          i(0),
+          f(0),
+          ll(0),
+          d(0),
+          pc(NULL),
+          pir(NULL),
+          ppir(NULL) {}
+
+    bool njson_is_default() const { return false; }
+
+    JSON_Value *njson_serialize() const {
+        NJSON_SERIALIZE_INIT;
         {
-            if(_key_==NULL){
-                NJSON_SET(c);
-                NJSON_SET(b);
-                NJSON_SET(s);
-                NJSON_SET(i);
-                NJSON_SET(f);
-                NJSON_SET(ll);
-                NJSON_SET(d);
-                NJSON_SET(pc);
-                NJSON_SET(m);
-                NJSON_SET(l);
-                NJSON_SET(lm);
-                NJSON_SET(ir);
-                NJSON_SET(pir);
-                NJSON_SET(ppir);
-                NJSON_SET(mir);
-            } else {
-                NJSON_SET_IF_KEY(c)
-                NJSON_SET_IF_KEY(b)
-                NJSON_SET_IF_KEY(s)
-                NJSON_SET_IF_KEY(i)
-                NJSON_SET_IF_KEY(f)
-                NJSON_SET_IF_KEY(ll)
-                NJSON_SET_IF_KEY(d)
-                NJSON_SET_IF_KEY(pc)
-                NJSON_SET_IF_KEY(m)
-                NJSON_SET_IF_KEY(l)
-                NJSON_SET_IF_KEY(lm)
-                NJSON_SET_IF_KEY(ir)
-                NJSON_SET_IF_KEY(pir)
-                NJSON_SET_IF_KEY(ppir)
-                NJSON_SET_IF_KEY(mir)
-                {
-                    //TODO:error
-                    return false;
-                }
-            }
+            NJSON_SET(c);
+            NJSON_SET(b);
+            NJSON_SET(s);
+            NJSON_SET(i);
+            NJSON_SET(f);
+            NJSON_SET(ll);
+            NJSON_SET(d);
+            NJSON_SET(pc);
+            NJSON_SET(m);
+            NJSON_SET(mid);
+            NJSON_SET(mcc);
+            NJSON_SET(l);
+            NJSON_SET(lm);
+            NJSON_SET(ir);
+            NJSON_SET(pir);
+            NJSON_SET(ppir);
+            NJSON_SET(mir);
+            NJSON_SET(mpir);
         }
 
-        return true;
-    }
-    void njson_deserialize(JSON_Value *_doc_){
-        JSON_Object *_root_obj_ = json_value_get_object(_doc_);
-        {
-            NJSON_GET(c);
-            NJSON_GET(b);
-            NJSON_GET(s);
-            NJSON_GET(i);
-            NJSON_GET(f);
-            NJSON_GET(ll);
-            NJSON_GET(d);
-            NJSON_GET(pc);
-            NJSON_GET(m);
-            NJSON_GET(l);
-            NJSON_GET(lm);
-            NJSON_GET(ir);
-            NJSON_GET(pir);
-            NJSON_GET(ppir);
-            NJSON_GET(mir);
-        }
+        NJSON_RET;
     }
 
-    ~Res(){
-        if(pc)delete[] pc;
-        if(pir)delete pir;
-        if(ppir&&*ppir)delete *ppir;
-        if(ppir)delete ppir;
-        //TODO free mpir
+    void njson_deserialize(JSON_Value *njson_val) {
+        NJSON_DESERIALIZE_INIT;
+
+        NJSON_GET(c);
+        NJSON_GET(b);
+        NJSON_GET(s);
+        NJSON_GET(i);
+        NJSON_GET(f);
+        NJSON_GET(ll);
+        NJSON_GET(d);
+        NJSON_GET(pc);
+        NJSON_GET(m);
+        NJSON_GET(mid);
+        NJSON_GET(mcc);
+        NJSON_GET(l);
+        NJSON_GET(lm);
+        NJSON_GET(ir);
+        NJSON_GET(pir);
+        NJSON_GET(ppir);
+        NJSON_GET(mir);
+        NJSON_GET(mpir);
     }
 
-private:
-    //basic types test
-    char                         c;
-    bool                         b;
-    short                         s;
-    int                         i;
-    float                         f;
-    long long                     ll;
-    double                         d;
+   private:
+    // basic types test
+    char c;
+    bool b;
+    short s;
+    int i;
+    float f;
+    long long ll;
+    double d;
 
-    //const char * test
-    const char                     *pc;
+    // const char * test
+    const char *pc;
 
-    //map list test
-    std::map<std::string,std::string>         m;
-    std::list<int>                    l;
-    std::list<std::map<std::string,std::string> >    lm;
+    // map list test
+    std::map<std::string, std::string> m;
+    std::map<int, double> mid;
+    std::map<char *, char *> mcc;
+    std::list<int> l;
+    std::list<std::map<std::string, std::string> > lm;
 
-    //inner object test
-    InnerRes                     ir;
-    InnerRes                     *pir;
-    InnerRes                     **ppir;
-    std::map<std::string,InnerRes>            mir;
-    std::map<std::string,InnerRes*>            mpir;
+    // inner object test
+    InnerRes ir;
+    InnerRes *pir;
+    InnerRes **ppir;
+    std::map<std::string, InnerRes> mir;
+    std::map<std::string, InnerRes *> mpir;
 };
 ```
 
@@ -170,6 +149,14 @@ See more at "[nJson/resource](https://github.com/ABackerNINI/nJson/tree/master/r
         "1": "2",
         "2": "\\3",
         "3": "4"
+    },
+    "mid": {
+        "1": 2,
+        "2": 3
+    },
+    "mcc": {
+        "7890": "123456",
+        "123456": "7890"
     },
     "l": [
         1,
@@ -201,25 +188,30 @@ See more at "[nJson/resource](https://github.com/ABackerNINI/nJson/tree/master/r
     ],
     "ir": {
         "id": 1,
+        "type": 0,
         "key": "k",
         "val": "v"
     },
     "pir": {
+        "id": 0,
         "type": 1,
         "key": "pir key"
     },
     "ppir": {
+        "id": 0,
         "type": 0,
         "key": "ppir key",
         "val": "ppir val"
     },
     "mir": {
         "1": {
+            "id": 0,
             "type": 1,
             "key": "k1",
             "val": "v1"
         },
         "2": {
+            "id": 0,
             "type": 2,
             "key": "k2",
             "val": "v2"
@@ -233,12 +225,12 @@ See more at "[nJson/resource](https://github.com/ABackerNINI/nJson/tree/master/r
 * Implement the following five functions to support a structure or a class with non-intrusive method.
 
 ```c++
-bool is_default_value(const T &val);//ignore when serializing if it is a default value.
-                    //Intrusive method return false on default.
-void njson_set_value(JSON_Object *obj,const char *key,const T &val);//support the serialization of type "T".
-void njson_set_value(JSON_Array *arr,T &val);//support the serialization of array type of T.
-void njson_get_value(JSON_Object *obj,const char *key,T *val);//support the deserialization of type "T".
-void njson_get_value(JSON_Array *arr,const T &val);//support the deserialization of array type of T.
+bool is_default_value(const T &val);// ignore when serializing if it is a default value.
+                    // Intrusive method return false on default.
+void njson_set_value(JSON_Object *obj,const char *key,const T &val);// support the serialization of type "T".
+void njson_set_value(JSON_Array *arr,T &val);// support the serialization of array type of T.
+void njson_get_value(JSON_Object *obj,const char *key,T *val);// support the deserialization of type "T".
+void njson_get_value(JSON_Array *arr,const T &val);// support the deserialization of array type of T.
 ```
 
 * The following code shows you how to support the type "std::list\<T\>".
@@ -277,7 +269,7 @@ template<typename _T>
         }
     }
 template<typename _T>
-    void njson_get_value(JSON_Array *arr,const std::list<_T> &val);//implements to support std::list<std::list<_T> >
+    void njson_get_value(JSON_Array *arr,const std::list<_T> &val);// implements to support std::list<std::list<_T> >
 ```
 
 See more examples at "[nJson/nJson/support](https://github.com/ABackerNINI/nJson/tree/master/nJson/support)".
@@ -288,4 +280,4 @@ See more examples at "[nJson/nJson/support](https://github.com/ABackerNINI/nJson
 
 ## License
 
-[GNU GENERAL PUBLIC LICENSE](http://fsf.org/)
+* [GNU GENERAL PUBLIC LICENSE V3](http://fsf.org/)
